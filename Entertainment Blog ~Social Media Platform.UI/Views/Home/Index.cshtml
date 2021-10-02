@@ -1,8 +1,14 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
+<partial name="/Views/Shared/_Slider.cshtml" />
+@*<partial name="/Views/Shared/_Slider.cshtml" model="Model.SliderBlogs" />*@
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+    <h1 class="display-4">Recently Added</h1>
+    <div class="col-sm-8">
+        <div class="row">
+            <partial name="/Views/Shared/_Posts.cshtml" />
+        </div>
+    </div>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>

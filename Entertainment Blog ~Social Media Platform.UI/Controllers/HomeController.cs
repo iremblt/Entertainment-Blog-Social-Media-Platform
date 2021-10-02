@@ -21,6 +21,10 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
         public IActionResult Index()
         {
             return View();
+        }         
+        public IActionResult Details()
+        {
+            return View();
         }
 
         public IActionResult Privacy()
