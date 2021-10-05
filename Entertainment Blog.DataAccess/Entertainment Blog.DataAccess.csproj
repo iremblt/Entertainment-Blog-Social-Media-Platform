@@ -1,12 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Entertainment_Blog__Social_Media_Platform.UI</RootNamespace>
+    <RootNamespace>Entertainment_Blog.DataAccess</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Abstract\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.10">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -14,8 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Entertainment Blog.Bussiness\Entertainment Blog.Bussiness.csproj" />
-    <ProjectReference Include="..\Entertainment Blog.DataAccess\Entertainment Blog.DataAccess.csproj" />
+    <ProjectReference Include="..\Entertainment Blog.Entity\Entertainment Blog.Entity.csproj" />
   </ItemGroup>
 
 </Project>
