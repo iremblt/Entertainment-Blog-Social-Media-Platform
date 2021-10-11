@@ -6,8 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstract\" />
-    <Folder Include="Concrete\" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entertainment Blog.DataAccess\Entertainment Blog.DataAccess.csproj" />
+    <ProjectReference Include="..\Entertainment Blog.DTO\Entertainment Blog.DTO.csproj" />
+    <ProjectReference Include="..\Entertainment Blog.Entity\Entertainment Blog.Entity.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Concrete\FluentValidation\" />
   </ItemGroup>
 
 </Project>

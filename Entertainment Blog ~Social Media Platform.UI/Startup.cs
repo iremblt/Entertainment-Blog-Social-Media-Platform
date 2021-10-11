@@ -1,4 +1,10 @@
+using Entertainment_Blog.Bussiness.Abstract;
+using Entertainment_Blog.Bussiness.Concrete.Mapping;
+using Entertainment_Blog.Bussiness.Concrete.Services;
+using Entertainment_Blog.DataAccess.Abstract;
+using Entertainment_Blog.DataAccess.Concrete;
 using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Contexts;
+using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +25,13 @@ namespace Entertainment_Blog__Social_Media_Platform.UI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<EntertainmentBlogContext>();
+            services.AddScoped<IPostRepository,EfPostRepository>();
+            services.AddScoped<ICategoryRepository,EfCategoryRepository>();
+            services.AddScoped<ITagRepository,EfTagRepository>();
+            services.AddScoped<IPostService, PostServices>();
+            services.AddScoped<ICategoryService, CategoryServices>();
+            services.AddScoped<ITagService, TagServices>();
+            services.AddAutoMapper(typeof(AutoMappingProfile));
             services.AddControllersWithViews();
         }
 
@@ -26,6 +39,7 @@ namespace Entertainment_Blog__Social_Media_Platform.UI
         {
             if (env.IsDevelopment())
             {
+                SeedData.Seed(app);
                 app.UseDeveloperExceptionPage();
             }
             else

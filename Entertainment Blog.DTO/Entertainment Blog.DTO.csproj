@@ -5,9 +5,4 @@
     <RootNamespace>Entertainment_Blog.DTO</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Abstract\" />
-    <Folder Include="Concrete\" />
-  </ItemGroup>
-
 </Project>

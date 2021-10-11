@@ -47,10 +47,6 @@ namespace Entertainment_Blog.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsPublished")
                         .HasColumnType("bit");
 
@@ -58,6 +54,10 @@ namespace Entertainment_Blog.DataAccess.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Summary")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Thumbnail")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
