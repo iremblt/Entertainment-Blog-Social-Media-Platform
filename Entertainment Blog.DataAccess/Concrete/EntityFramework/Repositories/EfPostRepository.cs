@@ -45,5 +45,9 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
             var lists = IncludeTypes(types).ToList();
             return lists;
         }
+        public IQueryable<Post> GetPostsOrderByDate()
+        {
+            return context.Posts.OrderByDescending(d => d.PublishDate.Date).AsQueryable();
+        }
     }
 }

@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entertainment Blog ~Social Media Platform.UI", "Entertainment Blog ~Social Media Platform.UI\Entertainment Blog ~Social Media Platform.UI.csproj", "{0F08ADDF-913B-480D-94B9-0D7A43E59642}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entertainment Blog.Bussiness", "Entertainment Blog.Bussiness\Entertainment Blog.Bussiness.csproj", "{1167AA74-0C31-45F2-94CC-21346C24E69E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entertainment Blog.Bussiness", "Entertainment Blog.Bussiness\Entertainment Blog.Bussiness.csproj", "{1167AA74-0C31-45F2-94CC-21346C24E69E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entertainment Blog.DataAccess", "Entertainment Blog.DataAccess\Entertainment Blog.DataAccess.csproj", "{EEA994C3-0BA0-424F-AC93-28CE725DDE3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entertainment Blog.DataAccess", "Entertainment Blog.DataAccess\Entertainment Blog.DataAccess.csproj", "{EEA994C3-0BA0-424F-AC93-28CE725DDE3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entertainment Blog.Entity", "Entertainment Blog.Entity\Entertainment Blog.Entity.csproj", "{19C4924F-C536-45E4-B41F-321825AA1019}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entertainment Blog.Entity", "Entertainment Blog.Entity\Entertainment Blog.Entity.csproj", "{19C4924F-C536-45E4-B41F-321825AA1019}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entertainment Blog.DTO", "Entertainment Blog.DTO\Entertainment Blog.DTO.csproj", "{8724370E-4483-456E-9361-EA3CDE4788B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entertainment Blog.DTO", "Entertainment Blog.DTO\Entertainment Blog.DTO.csproj", "{8724370E-4483-456E-9361-EA3CDE4788B4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,6 @@
 ﻿using Entertainment_Blog.DTO.DTOs.PostDTO;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Entertainment_Blog.Bussiness.Abstract
@@ -7,6 +8,7 @@ namespace Entertainment_Blog.Bussiness.Abstract
     public interface IPostService
     {
         Task<List<PostListDTO>> GetPostsAsync();
+        List<PostListDTO> GetPostsOrderByDateTime();
         List<PostListDTO> GetPostsIncludeCategoriesAndTags();
         List<PostListDTO> GetPostsIncludeCategories();
         List<PostListDTO> GetPostsIncludeTags();

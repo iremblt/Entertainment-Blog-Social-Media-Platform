@@ -1,6 +1,7 @@
 ﻿using Entertainment_Blog.Entity.Concrete;
 using Entertainment_Blog.Entity.Enums;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Entertainment_Blog.DataAccess.Abstract
 {
@@ -8,5 +9,6 @@ namespace Entertainment_Blog.DataAccess.Abstract
     {
         List<Post> GetPostsIncludeCategoriesAndTags(Types types);
         Post GetPostByIdWithCategoriesAndTags(Types types,int id);
+        IQueryable<Post> GetPostsOrderByDate();
     }
 }

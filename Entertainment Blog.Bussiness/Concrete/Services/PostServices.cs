@@ -5,6 +5,7 @@ using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.Entity.Concrete;
 using Entertainment_Blog.Entity.Enums;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Entertainment_Blog.Bussiness.Concrete.Services
@@ -64,6 +65,11 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         public async Task<List<PostListDTO>> GetPostsAsync()
         {
             var lists = await postRepository.GetAllAsync();
+            return mapper.Map<List<PostListDTO>>(lists);
+        }        
+        public List<PostListDTO> GetPostsOrderByDateTime()
+        {
+            var lists = postRepository.GetPostsOrderByDate();
             return mapper.Map<List<PostListDTO>>(lists);
         }
 

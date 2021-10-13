@@ -1,4 +1,5 @@
-﻿using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories;
+﻿using Entertainment_Blog.Bussiness.Abstract;
+using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories;
 using Entertainment_Blog__Social_Media_Platform.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,17 +14,18 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly EfPostRepository ef;
+        private readonly IPostService _postService;
 
-        public HomeController(ILogger<HomeController> logger,EfPostRepository _ef)
+        public HomeController(ILogger<HomeController> logger,IPostService postService)
         {
             _logger = logger;
-            ef = _ef;
+            _postService = postService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var lists = _postService.GetPostsOrderByDateTime();
+            return View(lists);
         }           
         public IActionResult Details()
         {
