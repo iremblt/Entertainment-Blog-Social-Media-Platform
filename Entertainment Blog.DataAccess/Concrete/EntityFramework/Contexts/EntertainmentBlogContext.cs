@@ -15,6 +15,7 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<Tag> Tags { get; set; }
         public DbSet<PostCategory> PostCategories { get; set; }
         public DbSet<PostTag> PostTags { get; set; }
+        public DbSet<Contents> Contents { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new PostCategoryMap());
@@ -22,6 +23,7 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Contexts
             modelBuilder.ApplyConfiguration(new PostMap());
             modelBuilder.ApplyConfiguration(new CategoryMap());
             modelBuilder.ApplyConfiguration(new TagMap());
+            modelBuilder.ApplyConfiguration(new ContentsMap());
         }
     }
 }

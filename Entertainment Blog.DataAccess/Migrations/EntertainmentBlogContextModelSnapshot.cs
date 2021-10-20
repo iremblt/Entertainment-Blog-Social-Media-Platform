@@ -36,16 +36,35 @@ namespace Entertainment_Blog.DataAccess.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.Post", b =>
+            modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.Contents", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Content")
-                        .IsRequired()
+                    b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Contents");
+                });
+
+            modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.Post", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("IsPublished")
                         .HasColumnType("bit");
@@ -117,6 +136,17 @@ namespace Entertainment_Blog.DataAccess.Migrations
                     b.ToTable("Tags");
                 });
 
+            modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.Contents", b =>
+                {
+                    b.HasOne("Entertainment_Blog.Entity.Concrete.Post", "Post")
+                        .WithMany("Contents")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.PostCategory", b =>
                 {
                     b.HasOne("Entertainment_Blog.Entity.Concrete.Category", "Category")
@@ -162,6 +192,8 @@ namespace Entertainment_Blog.DataAccess.Migrations
 
             modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.Post", b =>
                 {
+                    b.Navigation("Contents");
+
                     b.Navigation("PostCategories");
 
                     b.Navigation("PostTags");

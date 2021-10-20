@@ -1,5 +1,7 @@
-﻿using Entertainment_Blog.DTO.DTOs.TagDTO;
+﻿using Entertainment_Blog.DTO.DTOs.SearchDTO;
+using Entertainment_Blog.DTO.DTOs.TagDTO;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Entertainment_Blog.Bussiness.Abstract
@@ -12,5 +14,6 @@ namespace Entertainment_Blog.Bussiness.Abstract
         TagListDTO GetTagsByIdIncludePosts(int id);
         Task AddOrEditTagAsync(TagAddOrEditDTO tag);
         Task RemoveTagAsync(TagRemoveDTO tag);
+        IQueryable<TagListDTO> SearchTag(SearchDTO search);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entertainment_Blog.Bussiness.Abstract;
 using Entertainment_Blog.DataAccess.Abstract;
+using Entertainment_Blog.DTO.DTOs.SearchDTO;
 using Entertainment_Blog.DTO.DTOs.TagDTO;
 using Entertainment_Blog.Entity.Concrete;
 using Entertainment_Blog.Entity.Enums;
@@ -28,7 +29,19 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             {
                 await tagRepository.UpdateAsync(adding);
             }
-            await tagRepository.AddAsync(adding);
+            var list = await GetTagsAsync();
+            int contains = 0;
+            foreach (var item in list)
+            {
+                if (adding.Name.Contains(item.Name))
+                {
+                    ++contains;
+                }
+            }
+            if (contains == 0)
+            {
+                await tagRepository.AddAsync(adding);
+            }
         }
 
         public async Task<List<TagListDTO>> GetTagsAsync()
@@ -61,6 +74,12 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         {
             var removed = mapper.Map<TagRemoveDTO,Tag>(tag);
             await tagRepository.DeleteAsync(removed.Id);
+        }
+        public IQueryable<TagListDTO> SearchTag(SearchDTO search)
+        {
+            var text = tagRepository.SearchTag(search.Text).ToList();
+            var mapping= mapper.Map<List<TagListDTO>>(text);
+            return mapping.AsQueryable();
         }
     }
 }

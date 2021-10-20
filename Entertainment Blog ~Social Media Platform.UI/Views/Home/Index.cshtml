@@ -13,11 +13,11 @@
                 {
                     <div class="col-md-6 mb-5">
                         <div class="card">
-                            <a asp-action="Post" asp-controller="Details" asp-route-id="@post.Id">
+                            <a asp-action="Details" asp-controller="Post" asp-route-id="@post.Id">
                                 <img src="/img/@post.Thumbnail" class="rounded mb-4" alt="@post.Title" width="1280" height="720">
                             </a>
                             <div class="card-block">
-                                <h2 class="card-title h4 serif-font"><a asp-action="Post" asp-controller="Details" asp-route-id="@post.Id">@post.Title</a></h2>
+                                <h2 class="card-title h4 serif-font"><a asp-action="Details" asp-controller="Post" asp-route-id="@post.Id">@post.Title</a></h2>
                                 <p class="card-text text-muted">@post.Summary</p>
                                 <div class="metafooter">
                                     <div class="wrapfooter small d-flex align-items-center">

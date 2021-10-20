@@ -1,0 +1,34 @@
+﻿@model ContentsAddDTO
+@{
+    ViewData["Title"] = "Add Content";
+}
+<form asp-controller="Post" asp-action="CreateContent" method="post">
+    <input type="hidden" asp-for="PostId" value="@Model.PostId"/>
+    <br />@Html.AntiForgeryToken()
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Content
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <textarea class="form-control" placeholder="Text" asp-for="Text"></textarea>
+                        <span asp-validation-for="Text" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" placeholder="Image" asp-for="Image" />
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" asp-for="AddMoreContent" />
+                        <label class="form-check-label" asp-for="AddMoreContent"> Do you want to add more contents?</label>
+                        <span asp-validation-for="AddMoreContent" class="text-danger"></span>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm">Continue To Add</button>
+                    <button type="submit" class="btn btn-danger btn-sm">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -28,9 +28,17 @@ namespace Entertainment_Blog__Social_Media_Platform.UI
             services.AddScoped<IPostRepository,EfPostRepository>();
             services.AddScoped<ICategoryRepository,EfCategoryRepository>();
             services.AddScoped<ITagRepository,EfTagRepository>();
+            services.AddScoped<IPostCategoryRepository,EfPostCategoryRepository>();
+            services.AddScoped<IPostTagRepository,EfPostTagRepository>();
+            services.AddScoped<IContentsRepository,EfContentsRepository>();
+            //services.AddScoped<IImagesRepository,EfImagesRepository>();
             services.AddScoped<IPostService, PostServices>();
             services.AddScoped<ICategoryService, CategoryServices>();
             services.AddScoped<ITagService, TagServices>();
+            services.AddScoped<IPostCategoryService, PostCategoryServices>();
+            services.AddScoped<IPostTagService, PostTagServices>();
+            services.AddScoped<IContentsService, ContentsServices>();
+            //services.AddScoped<IImagesService, ImagesServices>();
             services.AddAutoMapper(typeof(AutoMappingProfile));
             services.AddControllersWithViews();
         }

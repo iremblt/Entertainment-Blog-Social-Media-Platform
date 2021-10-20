@@ -2,6 +2,7 @@
 using Entertainment_Blog.Bussiness.Abstract;
 using Entertainment_Blog.DataAccess.Abstract;
 using Entertainment_Blog.DTO.DTOs.PostDTO;
+using Entertainment_Blog.DTO.DTOs.SearchDTO;
 using Entertainment_Blog.Entity.Concrete;
 using Entertainment_Blog.Entity.Enums;
 using System.Collections.Generic;
@@ -19,10 +20,14 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             postRepository = _postRepository;
             mapper = _mapper;
         }
-        public async Task AddPostAsync(PostAddDTO post)
+        public async Task<Post> AddPostAsync(PostAddDTO post)
         {
-            var adding = mapper.Map<PostAddDTO,Post>(post);
+            var adding = mapper.Map<PostAddDTO, Post>(post);
             await postRepository.AddAsync(adding);
+            await postRepository.AddCategoryForPost(adding,post.CategoryIds);
+            var added=  await postRepository.AddTagForPost(adding, post.TagIds);
+            await postRepository.SaveAsync();
+            return added;
         }
 
         public async Task DeletePostAsync(PostDeleteDTO post)
@@ -89,6 +94,23 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         {
             var lists = postRepository.GetPostsIncludeCategoriesAndTags(Types.PostTags);
             return mapper.Map<List<PostListDTO>>(lists);
+        }
+        public async Task<PostNextAndLastDTO> GetNextAndLastPostOfThePostAsync(int id)
+        {
+            var detail = GetPostByIdIncludeTags(id);
+            int lastId = id - 1;
+            int nextId = id + 1;
+            var postModel = new PostNextAndLastDTO();
+            postModel.Post = detail;
+            postModel.PostNext = await GetPostByIdAsync(nextId);
+            postModel.PostLast = await GetPostByIdAsync(lastId);
+            return postModel;
+        }
+        public IQueryable<PostListDTO> SearchPost(SearchDTO search)
+        {
+            var post = postRepository.SearchPost(search.Text).ToList();
+            var mapping = mapper.Map<List<PostListDTO>>(post);
+            return mapping.AsQueryable();
         }
     }
 }

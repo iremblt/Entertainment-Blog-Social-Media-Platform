@@ -1,13 +1,10 @@
 ﻿using Entertainment_Blog.Bussiness.Abstract;
-using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories;
+using Entertainment_Blog.DTO.DTOs.SearchDTO;
 using Entertainment_Blog__Social_Media_Platform.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
 {
@@ -22,39 +19,24 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
             _postService = postService;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(SearchDTO search)
         {
             var lists = _postService.GetPostsOrderByDateTime();
-            return View(lists);
+            if (search.Text != null)
+            {
+                var searching= _postService.SearchPost(search);
+                return View(searching.ToList());
+            }
+            else
+            {
+                return View(lists);
+            }
         }           
-        public IActionResult Details()
-        {
-            return View();
-        }
 
         public IActionResult Privacy()
         {
             return View();
-        }
-        public IActionResult DemoList()
-        {
-            return View(DemoRepository.Demos.ToList());
-        }
-        [HttpGet]
-        public IActionResult DemoAdd()
-        {
-            return View();
-        }        
-        [HttpPost]
-        public IActionResult DemoAdd(Demo demo)
-        {
-            if (ModelState.IsValid)
-            {
-                DemoRepository.AddDemo(demo);
-                return RedirectToAction("Index");
-            }
-            return View(demo);
-        }
+        } 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -9,7 +9,6 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Map
         public void Configure(EntityTypeBuilder<Post> builder)
         {
             builder.Property(p => p.Title).IsRequired().HasMaxLength(120);
-            builder.Property(p => p.Content).IsRequired();
             builder.Property(p => p.Thumbnail).IsRequired();
             builder.Property(p => p.PublishDate).IsRequired();
         }
