@@ -8,5 +8,6 @@ namespace Entertainment_Blog.DTO.DTOs.TagDTO
         public int Id { get; set; }
         public string Name { get; set; }
         public ICollection<PostTagListDTO> PostTags { get; set; }
+        public List<int> PostIds { get; set; }
     }
 }

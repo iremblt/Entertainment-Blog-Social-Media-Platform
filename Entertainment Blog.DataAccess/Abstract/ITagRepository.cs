@@ -11,5 +11,6 @@ namespace Entertainment_Blog.DataAccess.Abstract
         List<Tag> GetTagsIncludePosts(Types types);
         Tag GetTagsByIdWithPost(Types types,int id);
         IQueryable<Tag> SearchTag(String text);
+        Tag GetEditTagIdIncludePosts(int id);
     }
 }

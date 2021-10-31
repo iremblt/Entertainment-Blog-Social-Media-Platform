@@ -5,10 +5,8 @@ using Entertainment_Blog.DTO.DTOs.SearchDTO;
 using Entertainment_Blog.DTO.DTOs.TagDTO;
 using Entertainment_Blog.Entity.Concrete;
 using Entertainment_Blog.Entity.Enums;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Entertainment_Blog.Bussiness.Concrete.Services
@@ -24,24 +22,43 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         }
         public async Task AddOrEditTagAsync(TagAddOrEditDTO tag)
         {
-            var adding = mapper.Map<TagAddOrEditDTO,Tag>(tag);
-            if (adding.Id != 0)
-            {
-                await tagRepository.UpdateAsync(adding);
+            if (tag.Id != 0)
+            {//Id tracking by another instance!!
+                var getTag = tagRepository.GetEditTagIdIncludePosts(tag.Id); 
+                var updating = mapper.Map<TagAddOrEditDTO, Tag>(tag, tagRepository.GetTagsByIdWithPost(Types.PostTags, tag.Id));
+                updating.PostTags = getTag.PostTags;
+                var item = PostDeleteFromTheTag(updating, tag.PostIds);
+                await tagRepository.UpdateAsync(item);
             }
-            var list = await GetTagsAsync();
-            int contains = 0;
-            foreach (var item in list)
+            else
             {
-                if (adding.Name.Contains(item.Name))
+                var adding = mapper.Map<TagAddOrEditDTO, Tag>(tag);
+                var list = await GetTagsAsync();
+                int contains = 0;
+                foreach (var item in list)
                 {
-                    ++contains;
+                    if (adding.Name.Contains(item.Name))
+                    {
+                        ++contains;
+                    }
+                }
+                if (contains == 0)
+                {
+                    await tagRepository.AddAsync(adding);
                 }
             }
-            if (contains == 0)
+
+        }
+        public Tag PostDeleteFromTheTag(Tag tag, List<int> PostIds)
+        {
+            if (PostIds != null)
             {
-                await tagRepository.AddAsync(adding);
+                foreach (var post in PostIds)
+                {
+                    tag.PostTags.Remove(tag.PostTags.FirstOrDefault(i => i.PostId == post));
+                }
             }
+            return tag;
         }
 
         public async Task<List<TagListDTO>> GetTagsAsync()
@@ -57,6 +74,13 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             var mapping = mapper.Map<Tag,TagListDTO>(result);
             return mapping;
         }
+        public TagAddOrEditDTO GetEditTagsById(int id)
+        {
+            var result = tagRepository.GetTagsByIdWithPost(Types.PostTags,id);
+            if (result == null) { return null; }
+            var mapping = mapper.Map<Tag,TagAddOrEditDTO>(result);
+            return mapping;
+        }
 
         public TagListDTO GetTagsByIdIncludePosts(int id)
         {
@@ -70,10 +94,9 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             return mapper.Map<List<TagListDTO>>(lists);
         }
 
-        public async Task RemoveTagAsync(TagRemoveDTO tag)
+        public async Task RemoveTagAsync(int id)
         {
-            var removed = mapper.Map<TagRemoveDTO,Tag>(tag);
-            await tagRepository.DeleteAsync(removed.Id);
+            await tagRepository.DeleteAsync(id);
         }
         public IQueryable<TagListDTO> SearchTag(SearchDTO search)
         {

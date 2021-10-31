@@ -19,7 +19,7 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
         {
             if (types.HasFlag(Types.PostTags))
             {
-                context.Tags.Include(p => p.PostTags).ThenInclude(t => t.Tag).Load();
+                context.Tags.Include(p => p.PostTags).ThenInclude(p => p.Post).Load();
             }
             return context.Tags.ToList();
         }
@@ -44,6 +44,18 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
         { 
             var tag = context.Tags.Where(i => i.Name.ToLower().Contains(text.ToLower()));
             return tag;
+        }
+        public Tag GetEditTagIdIncludePosts(int id)
+        {
+            var tag= context.Tags.Include(p => p.PostTags).ThenInclude(t => t.Post).AsNoTracking().FirstOrDefault(i => i.Id == id);
+            if (tag == null)
+            {
+                return null;
+            }
+            else
+            {
+                return tag;
+            }
         }
     }
 }

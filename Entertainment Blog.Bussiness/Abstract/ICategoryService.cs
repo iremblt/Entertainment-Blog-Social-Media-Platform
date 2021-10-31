@@ -1,4 +1,5 @@
 ﻿using Entertainment_Blog.DTO.DTOs.CategoryDTO;
+using Entertainment_Blog.Entity.Concrete;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,9 +9,11 @@ namespace Entertainment_Blog.Bussiness.Abstract
     {
         Task<List<CategoryListDTO>> GetCategoriesAsync();
         Task<CategoryListDTO> GetCategoryByIdAsync(int id);
-        Task AddOrEditCategoryAsync(CategoryAddOrEditDTO category);
-        Task DeleteCategoryAsync(CategoryDeleteDTO category);
+        Task AddCategoryAsync(CategoryAddDTO category);
+        Task EditCategoryAsync(CategoryEditDTO category);
+        Task DeleteCategoryAsync(int id);
         List<CategoryListDTO> GetCategoriesIncludePosts();
-        CategoryListDTO GetCategoryByIdWithPost(int id);
+        CategoryEditDTO GetCategoryByIdWithPost(int id);
+        Task<Category> PostDeleteFromTheCategoryAsync(Category category, List<int> PostIds);
     }
 }

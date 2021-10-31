@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Entertainment_Blog.DTO.DTOs.CategoryDTO
 {
-    public class CategoryAddOrEditDTO
+    public class CategoryAddDTO
     {
-        public int Id { get; set; }
         public string Name { get; set; }
         public ICollection<PostCategoryListDTO> PostCategories { get; set; }
     }

@@ -8,7 +8,6 @@ namespace Entertainment_Blog.DTO.DTOs.PostDTO
 {
     public class PostAddDTO
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public string Summary { get; set; }
         public List<ContentsListDTO> Contents { get; set; }

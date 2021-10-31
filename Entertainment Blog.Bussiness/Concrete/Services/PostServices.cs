@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Entertainment_Blog.Bussiness.Abstract;
 using Entertainment_Blog.DataAccess.Abstract;
+using Entertainment_Blog.DTO.DTOs.PostCreateEditDTOs;
 using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.DTO.DTOs.SearchDTO;
 using Entertainment_Blog.Entity.Concrete;
@@ -14,10 +15,14 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
     public class PostServices : IPostService
     {
         private readonly IPostRepository postRepository;
+        private readonly ICategoryService categoryService;
+        private readonly ITagService tagService;
         private IMapper mapper;
-        public PostServices(IPostRepository _postRepository,IMapper _mapper)
+        public PostServices(IPostRepository _postRepository,IMapper _mapper, ICategoryService _categoryService, ITagService _tagService)
         {
             postRepository = _postRepository;
+            categoryService = _categoryService;
+            tagService = _tagService;
             mapper = _mapper;
         }
         public async Task<Post> AddPostAsync(PostAddDTO post)
@@ -36,12 +41,17 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             await postRepository.DeleteAsync(delete.Id);
         }
 
-        public async Task EditPostAsync(PostEditDTO post)
+        public async Task<Post> EditPostAsync(PostEditDTO post)
         {
-            var updating = mapper.Map<PostEditDTO, Post>(post);
-            await postRepository.UpdateAsync(updating);
+            var beforeupdating = postRepository.GetPostByIdWithContents(post.Id);
+            var updating = mapper.Map<PostEditDTO,Post>(post,postRepository.GetPostByIdWithCategoriesAndTags(Types.PostCategories|Types.PostTags,post.Id));
+            updating.PublishDate = beforeupdating.PublishDate;
+            updating.Contents = beforeupdating.Contents;
+            await postRepository.AddCategoryForPost(updating, post.CategoryIds);
+            var editted = await postRepository.AddTagForPost(updating, post.TagIds);
+            await postRepository.UpdateAsync(editted);
+            return editted;
         }
-
         public async Task<PostListDTO> GetPostByIdAsync(int id)
         {
             var result= await postRepository.GetByIdAsync(id);
@@ -53,12 +63,11 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         {
             var get = postRepository.GetPostByIdWithCategoriesAndTags(Types.PostCategories,id);
             return mapper.Map<Post, PostListDTO>(get);
-        }
-
-        public PostListDTO GetPostByIdIncludeCategoriesAndTags(int id)
+        }     
+        public PostEditDTO GetEditPostByIdIncludeCategoriesAndTags(int id)
         {
             var get = postRepository.GetPostByIdWithCategoriesAndTags(Types.PostCategories | Types.PostTags, id);
-            return mapper.Map<Post, PostListDTO>(get);
+            return mapper.Map<Post, PostEditDTO>(get);
         }
 
         public PostListDTO GetPostByIdIncludeTags(int id)
@@ -100,10 +109,12 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             var detail = GetPostByIdIncludeTags(id);
             int lastId = id - 1;
             int nextId = id + 1;
-            var postModel = new PostNextAndLastDTO();
-            postModel.Post = detail;
-            postModel.PostNext = await GetPostByIdAsync(nextId);
-            postModel.PostLast = await GetPostByIdAsync(lastId);
+            var postModel = new PostNextAndLastDTO
+            {
+                Post = detail,
+                PostNext = await GetPostByIdAsync(nextId),
+                PostLast = await GetPostByIdAsync(lastId)
+            };
             return postModel;
         }
         public IQueryable<PostListDTO> SearchPost(SearchDTO search)
@@ -111,6 +122,18 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             var post = postRepository.SearchPost(search.Text).ToList();
             var mapping = mapper.Map<List<PostListDTO>>(post);
             return mapping.AsQueryable();
+        }
+        public async Task<EdittingPostTagsCategoryDTO> MappingToEdittingPostTagsCategoryDTO(PostEditDTO postEdit)
+        {
+            var editing = new EdittingPostTagsCategoryDTO()
+            {
+                PostEdit = postEdit,
+                CategoryList = await categoryService.GetCategoriesAsync(),
+                TagList = await tagService.GetTagsAsync(),
+                SelectedCategories = postEdit.PostCategories,
+                SelectedTags = postEdit.PostTags
+            };
+            return editing;
         }
     }
 }

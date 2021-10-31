@@ -15,6 +15,6 @@ namespace Entertainment_Blog.DataAccess.Abstract
         IQueryable<Post> SearchPost(String text);
         Task<Post> AddCategoryForPost(Post post, List<int> CategoryIds);
         Task<Post> AddTagForPost(Post post, List<int> TagIds);
-
+        Post GetPostByIdWithContents(int id);
     }
 }

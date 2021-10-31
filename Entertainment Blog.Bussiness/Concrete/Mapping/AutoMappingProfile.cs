@@ -18,7 +18,8 @@ namespace Entertainment_Blog.Bussiness.Concrete.Mapping
             CreateMap<Post,PostDeleteDTO>().ReverseMap();
             CreateMap<Post,PostEditDTO>().ReverseMap();
             CreateMap<Category,CategoryListDTO>().ReverseMap();
-            CreateMap<Category,CategoryAddOrEditDTO>().ReverseMap();
+            CreateMap<Category,CategoryAddDTO>().ReverseMap();
+            CreateMap<Category,CategoryEditDTO>().ReverseMap();
             CreateMap<Category,CategoryDeleteDTO>().ReverseMap();
             CreateMap<Tag,TagListDTO>().ReverseMap();
             CreateMap<Tag,TagAddOrEditDTO>().ReverseMap();
@@ -29,6 +30,7 @@ namespace Entertainment_Blog.Bussiness.Concrete.Mapping
             CreateMap<PostTag,PostTagAddDTO>().ReverseMap();
             CreateMap<Contents,ContentsListDTO>().ReverseMap();
             CreateMap<Contents,ContentsAddDTO>().ReverseMap();
+            CreateMap<Contents,ContentsEditDTO>().ReverseMap();
             CreateMap<Contents,ContentsDeleteDTO>().ReverseMap();
         }
     }

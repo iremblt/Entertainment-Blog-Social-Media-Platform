@@ -32,8 +32,7 @@
                         @foreach (var tags in Model.TagList)
                         {
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="PostAdd.TagIds" value="@tags.Id" id="tags_@(tags.Id)"
-                                       @(Model.SelectedTags != null && Model.SelectedTags.Any(i => i.Id == tags.Id) ? "checked" : "") />
+                                <input class="form-check-input" type="checkbox" name="PostAdd.TagIds" value="@tags.Id" id="tags_@(tags.Id)"/>
                                 <label class="form-check-label" for="tags_@(tags.Id)">@tags.Name</label>
                             </div>
                         }
@@ -52,8 +51,7 @@
                         @foreach (var categories in Model.CategoryList)
                         {
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="PostAdd.CategoryIds" value="@categories.Id" id="category_@(categories.Id)"
-                                       @(Model.SelectedCategories != null && Model.SelectedCategories.Any(i => i.Id == categories.Id) ? "checked" : "") />
+                                <input class="form-check-input" type="checkbox" name="PostAdd.CategoryIds" value="@categories.Id" id="category_@(categories.Id)"/>
                                 <label class="form-check-label" for="category_@(categories.Id)">@categories.Name</label>
                             </div>
                         }
@@ -89,25 +87,8 @@
                 <div class="card-body">
                     <div class="form-group">
                         <input class="form-control" placeholder="Tag" asp-for="Tag.Name" />
+                        <span asp-validation-for="Tag.Name" class="text-danger"></span>
                         <button type="submit" class="btn btn-primary btn-sm">Create Tag</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</form>
-<form asp-controller="Post" asp-action="CreateContent" method="post">
-    <div class="row mt-4">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    Contents
-                </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <textarea class="form-control" placeholder="Text" asp-for="Contents.Text"></textarea>
-                        <button type="submit" class="btn btn-primary btn-sm">Add Content</button>
-                        <span asp-validation-for="Contents.Text" class="text-danger"></span>
                     </div>
                 </div>
             </div>

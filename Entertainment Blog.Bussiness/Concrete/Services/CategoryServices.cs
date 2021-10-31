@@ -5,6 +5,7 @@ using Entertainment_Blog.DTO.DTOs.CategoryDTO;
 using Entertainment_Blog.Entity.Concrete;
 using Entertainment_Blog.Entity.Enums;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Entertainment_Blog.Bussiness.Concrete.Services
@@ -12,26 +13,64 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
     public class CategoryServices : ICategoryService
     {
         private readonly ICategoryRepository categoryRepository;
+        private readonly IPostRepository postRepository;
+        private readonly IPostCategoryRepository postCatRepository;
         private IMapper mapper;
-        public CategoryServices(ICategoryRepository _categoryRepository,IMapper _mapper)
+        public CategoryServices(ICategoryRepository _categoryRepository,IPostRepository _postRepository,IPostCategoryRepository _postCatRepository, IMapper _mapper)
         {
             categoryRepository = _categoryRepository;
+            postRepository = _postRepository;
+            postCatRepository = _postCatRepository;
             mapper = _mapper;
         }
-        public async Task AddOrEditCategoryAsync(CategoryAddOrEditDTO category)
+        public async Task AddCategoryAsync(CategoryAddDTO category)
         {
-            var adding = mapper.Map<CategoryAddOrEditDTO, Category>(category);
-            if (category.Id != 0)
+            var adding = mapper.Map<CategoryAddDTO, Category>(category);
+            var list= await GetCategoriesAsync();
+            int contains = 0;
+            foreach (var item in list)
             {
-                await categoryRepository.UpdateAsync(adding);
+                if (adding.Name.Contains(item.Name))
+                {
+                    ++contains;
+                }
             }
-            await categoryRepository.AddAsync(adding);
-        }
-
-        public async Task DeleteCategoryAsync(CategoryDeleteDTO category)
+            if (contains == 0)
+            {
+                await categoryRepository.AddAsync(adding);
+            }
+        }        
+        public async Task EditCategoryAsync(CategoryEditDTO category)
         {
-            var delete = mapper.Map<CategoryDeleteDTO, Category>(category);
-            await categoryRepository.DeleteAsync(delete.Id);
+            var cat = categoryRepository.GetAddOrEditCategoryByIdWithPost(category.Id); //Id tracking by another instance!!
+            var adding = mapper.Map<CategoryEditDTO, Category>(category,categoryRepository.GetCategoryByIdWithPost(Types.PostCategories,category.Id));
+            adding.PostCategories = cat.PostCategories;
+            var item= await PostDeleteFromTheCategoryAsync(adding, category.PostIds);
+            await categoryRepository.UpdateAsync(item);
+        }
+        // Post id tracking by another !!
+        public async Task<Category> PostDeleteFromTheCategoryAsync(Category category, List<int> PostIds)
+        {
+            if (PostIds !=null)
+            {
+                foreach (var post in PostIds)
+                {
+                    //var postCategory = category.PostCategories.FirstOrDefault(i => i.PostId == post);
+                    //var postCategory= postCatRepository.GetByPostCategoryId(post,category.Id);
+                    //if (postCategory != null)
+                    //{
+                    //    category.PostCategories.Remove(postCategory);
+                    //    //await postCatRepository.RemoveAsync(postCategory);
+                    //}
+                    category.PostCategories.Remove(category.PostCategories.FirstOrDefault(i => i.PostId == post));
+                    //var issucced=category.PostCategories.Remove(cat);
+                }
+            }
+            return category;
+        }
+        public async Task DeleteCategoryAsync(int id)
+        {
+            await categoryRepository.DeleteAsync(id);
         }
 
         public async Task<List<CategoryListDTO>> GetCategoriesAsync()
@@ -53,10 +92,10 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             return mapper.Map<Category, CategoryListDTO>(result);
         }
 
-        public CategoryListDTO GetCategoryByIdWithPost(int id)
+        public CategoryEditDTO GetCategoryByIdWithPost(int id)
         {
             var get = categoryRepository.GetCategoryByIdWithPost(Types.PostCategories, id);
-            return mapper.Map<Category, CategoryListDTO>(get);
+            return mapper.Map<Category, CategoryEditDTO>(get);
         }
     }
 }

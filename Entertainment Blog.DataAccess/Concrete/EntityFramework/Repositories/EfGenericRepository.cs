@@ -37,7 +37,7 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
 
         public async Task<T> UpdateAsync(T t)
         {
-            var updating = _dbSet.Update(t);
+            var updating=_dbSet.Update(t);
             await SaveAsync();
             return updating.Entity;
         }

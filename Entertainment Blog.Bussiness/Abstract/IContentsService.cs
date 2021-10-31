@@ -11,5 +11,7 @@ namespace Entertainment_Blog.Bussiness.Abstract
         public Task<List<ContentsListDTO>> GetContentsListAsync();
         public Task EditContentsAsync(ContentsEditDTO contents);
         public Task RemoveContentsAsync(ContentsDeleteDTO contents);
+        public Task<List<ContentsListDTO>> GetContentsIncludePost();
+        public Task<List<ContentsEditDTO>> GetContentsByPostIdAsync(int postid);
     }
 }

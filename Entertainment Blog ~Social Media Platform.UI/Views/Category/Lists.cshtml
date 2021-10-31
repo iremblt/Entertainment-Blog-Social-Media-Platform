@@ -1,0 +1,75 @@
+﻿@model CategoryViewListsDTO
+@{
+    ViewData["Title"] = "Category List";
+}
+<div class="container mt-3 ">
+    <h2>Category List</h2>
+    <br />
+    @if (Model.DeletedName != null)
+    {
+        <div class="alert alert-success">
+            @Model.DeletedName is deleted!
+        </div>
+    }    
+    @if (Model.AddedName != null)
+    {
+        <div class="alert alert-success">
+            @Model.AddedName is added!
+        </div>
+    }
+    <div class="row">
+        <div class="col">
+            @if (Model.CategoryLists.Count() > 0)
+            {
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.CategoryLists)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Name</td>
+                                <td>
+                                    <a class="btn btn-primary btn-sm" asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                </td>
+                                <td>
+                                    <form asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id" method="post">
+                                        <input type="hidden" asp-for="@item.Id" />
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <form asp-controller="Category" asp-action="Add" method="post">
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <input class="form-control" placeholder="Name" asp-for="CategoryAdd.Name"/>
+                                        <span asp-validation-for="CategoryAdd.Name" class="text-danger"></span>
+                                        <button type="submit" class="btn btn-primary btn-sm">Create Category</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <div class="alert alert-danger">
+                    There isn't any category publish
+                </div>
+            }
+        </div>
+    </div>
+</div>

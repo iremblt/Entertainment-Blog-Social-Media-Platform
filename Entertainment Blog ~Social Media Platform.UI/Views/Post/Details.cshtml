@@ -8,45 +8,31 @@
             <div class="after-post-tags">
                 <ul class="tags">
                     <shadow> Tags || </shadow>
-                    @foreach (var tag in Model.Post.PostTags)
+                    @if (Model.Post.PostTags.Count > 0)
                     {
-                        <li>
-                            <a asp-action="Details" asp-controller="Tag" asp-route-id="@tag.TagId">@tag.Tag.Name</a>
-                        </li>
+                        @foreach (var tag in Model.Post.PostTags)
+                        {
+                            <li>
+                                <a asp-action="Details" asp-controller="Tag" asp-route-id="@tag.TagId">@tag.Tag.Name</a>
+                            </li>
+                        }
                     }
                 </ul>
             </div>
             <h1 class="posttitle">@Model.Post.Title</h1>
         </div>
         <img class="featured-image img-fluid" src="~/img/@Model.Post.Thumbnail" alt="@Model.Post.Title">
-        @foreach (var item in Model.Post.Contents)
+        @if (Model.Post.Contents.Count > 0)
         {
-            <div class="article-post">@item.Text<div class="clearfix"></div></div>
-            @if (item.Image !=null)
-            {
-                <img class="featured-image img-fluid" src="/img/@item.Image" />
-            }
-            
-            @*@if (item.Text != null)
+            @foreach (var item in Model.Post.Contents)
             {
                 <div class="article-post">@item.Text<div class="clearfix"></div></div>
+                @if (item.Image != null)
+                {
+                    <img class="featured-image img-fluid" src="/img/@item.Image" />
+                }
             }
-            else
-            {
-                <img class="featured-image img-fluid" src="/img/@item.Image" />
-            }*@
         }
-        @*@foreach (var item in Model.Contents)
-        {
-            @if (item.Contains("png") || item.Contains("jpg"))
-            {
-                <img class="featured-image img-fluid" src="/img/@item" />
-            }
-            else
-            {
-                <div class="article-post">@item<div class="clearfix"></div></div>
-            }
-        }*@
         <p>
             <small>
                 <span class="post-date"><time class="post-date" datetime="@Model.Post.PublishDate">@Model.Post.PublishDate</time></span>

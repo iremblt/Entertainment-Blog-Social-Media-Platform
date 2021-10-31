@@ -10,20 +10,20 @@ using System.Threading.Tasks;
 
 namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
 {
-    public class EfPostRepository:EfGenericRepository<Post>,IPostRepository
+    public class EfPostRepository : EfGenericRepository<Post>, IPostRepository
     {
         private readonly ICategoryRepository categoryRepository;
         private readonly ITagRepository tagRepository;
-        public EfPostRepository(EntertainmentBlogContext context,ICategoryRepository _categoryRepository,ITagRepository _tagRepository) : base(context)
+        public EfPostRepository(EntertainmentBlogContext context, ICategoryRepository _categoryRepository, ITagRepository _tagRepository) : base(context)
         {
-            categoryRepository =_categoryRepository;
-            tagRepository =_tagRepository;
+            categoryRepository = _categoryRepository;
+            tagRepository = _tagRepository;
         }
         private List<Post> IncludeTypes(Types types)
         {
             if (types.HasFlag(Types.PostCategories))
             {
-               context.Posts.Include(i => i.Contents).Include(i => i.PostCategories).ThenInclude(p => p.Category).Load();
+                context.Posts.Include(i => i.Contents).Include(i => i.PostCategories).ThenInclude(p => p.Category).Load();
             }
             if (types.HasFlag(Types.PostTags))
             {
@@ -34,7 +34,7 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
         public Post GetPostByIdWithCategoriesAndTags(Types types, int id)
         {
             var post = IncludeTypes(types).ToList();
-            var result = post.FirstOrDefault(i => i.Id==id);
+            var result = post.FirstOrDefault(i => i.Id == id);
             if (result == null)
             {
                 return null;
@@ -43,7 +43,7 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
             {
                 return result;
             }
-            
+
         }
         public List<Post> GetPostsIncludeCategoriesAndTags(Types types)
         {
@@ -57,12 +57,12 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
         public IQueryable<Post> SearchPost(String text)
         {
             var post = context.Posts
-                .Where(i => 
-                i.Title.ToLower().Contains(text.ToLower()) || 
+                .Where(i =>
+                i.Title.ToLower().Contains(text.ToLower()) ||
                 i.Summary.ToLower().Contains(text.ToLower()));
             return post;
         }
-        public async Task<Post> AddCategoryForPost(Post post,List<int>CategoryIds)
+        public async Task<Post> AddCategoryForPost(Post post, List<int> CategoryIds)
         {
             if (CategoryIds != null)
             {
@@ -79,8 +79,8 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
                 }
             }
             return post;
-        }        
-        public async Task<Post> AddTagForPost(Post post,List<int>TagIds)
+        }
+        public async Task<Post> AddTagForPost(Post post, List<int> TagIds)
         {
             if (TagIds != null)
             {
@@ -98,6 +98,12 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
             }
             return post;
         }
-
+        public Post GetPostByIdWithContents(int id)
+        {
+            var result = context.Posts.Include(p => p.Contents)
+                .AsNoTracking() // Id' i alınca oyle olurdu bunu yazmamım amacı değişklik olsun ya da olmasın kaydetmiyor.Sadece okuyor.
+                .FirstOrDefault(i => i.Id == id);
+            return result;
+        }
     }
 }

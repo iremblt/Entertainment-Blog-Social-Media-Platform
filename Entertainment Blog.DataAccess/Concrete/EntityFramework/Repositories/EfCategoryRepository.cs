@@ -12,7 +12,6 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
     {
         public EfCategoryRepository(EntertainmentBlogContext context) : base(context)
         {
-
         }
         private List<Category> IncludeTypes(Types types)
         {
@@ -40,6 +39,18 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
             {
                 return result;
                 
+            }
+        }        
+        public Category GetAddOrEditCategoryByIdWithPost(int id)
+        {
+            var result = context.Categories.Include(p=>p.PostCategories).ThenInclude(p=>p.Post).AsNoTracking().FirstOrDefault(i => i.Id == id);
+            if (result == null)
+            {
+                return null;
+            }
+            else
+            {
+                return result;
             }
         }
     }

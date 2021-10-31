@@ -17,5 +17,7 @@ namespace Entertainment_Blog.DTO.DTOs.PostDTO
         public bool IsPublished { get; set; }
         public ICollection<PostCategoryListDTO> PostCategories { get; set; }
         public ICollection<PostTagListDTO> PostTags { get; set; }
+        public List<int> CategoryIds { get; set; }
+        public List<int> TagIds { get; set; }
     }
 }

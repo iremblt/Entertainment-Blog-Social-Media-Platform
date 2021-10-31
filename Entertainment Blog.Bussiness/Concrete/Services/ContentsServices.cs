@@ -2,6 +2,7 @@
 using Entertainment_Blog.Bussiness.Abstract;
 using Entertainment_Blog.DataAccess.Abstract;
 using Entertainment_Blog.DTO.DTOs.ContentDTO;
+using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.Entity.Concrete;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -45,6 +46,16 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         {
             var removing = mapper.Map<ContentsDeleteDTO, Contents>(contents);
             await contentsRepository.DeleteAsync(removing.Id);
+        }
+        public async Task<List<ContentsListDTO>> GetContentsIncludePost()
+        {
+            var list = await contentsRepository.GetContentsIncludePost();
+            return mapper.Map<List<ContentsListDTO>>(list);
+        }
+        public async Task<List<ContentsEditDTO>> GetContentsByPostIdAsync(int postid)
+        {
+            var list = await contentsRepository.GetContentsByPostIdAsync(postid);
+            return mapper.Map<List<ContentsEditDTO>>(list);
         }
     }
 }

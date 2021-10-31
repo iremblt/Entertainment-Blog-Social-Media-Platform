@@ -4,6 +4,7 @@ using Entertainment_Blog.DTO.DTOs.PostCreateEditDTOs;
 using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.DTO.DTOs.TagDTO;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
@@ -73,7 +74,7 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
             }
             return View(contents);
         }
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         //Eğer tag'in adı daha önce bulunuyorsa ekleme! Service ekledim Fluent Api olarak eklersin ileride
         public async Task<IActionResult> CreateTag(TagAddOrEditDTO tag)
         {
@@ -84,15 +85,58 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
             return RedirectToAction("CreatePost");
         }
         [HttpGet]
-        public IActionResult EditPost()
+        public async Task<IActionResult> EditPost(int id)
         {
-            return View();
+            var exits = _postService.GetEditPostByIdIncludeCategoriesAndTags(id);
+            if (exits == null)
+            {
+                return NotFound();
+            }
+            var editing = await _postService.MappingToEdittingPostTagsCategoryDTO(exits);
+            return View(editing);
         }
-        [HttpPost]
-        public IActionResult EditPost(PostEditDTO postEdit)
+        [HttpPost,ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditPost(EdittingPostTagsCategoryDTO post)
         {
-            return View(postEdit);
-        }        
+            if (ModelState.IsValid)
+            {
+                var editted= await _postService.EditPostAsync(post.PostEdit);
+                return RedirectToAction("EditContent", "Post", new { postid = editted.Id });
+            }
+            return View(post);
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditContent(int postid)
+        {
+            var result = await _contentsService.GetContentsByPostIdAsync(postid);
+            var list = new ContentsEditListDTO()
+            {
+                ContentsEdits=result
+            };
+            return View(list);
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditContent(ContentsEditListDTO contentsEdit)
+        {
+            if (ModelState.IsValid)
+            {
+                int postid=0; //Content'siz edit yapılmıyor!!
+                foreach (var item in contentsEdit.ContentsEdits)
+                {
+                    await _contentsService.EditContentsAsync(item);
+                    postid = item.PostId;
+                }
+                if (contentsEdit.AddMoreContent == true)
+                {
+                    return RedirectToAction("CreateContent", "Post", new { postid = postid});
+                }
+                else
+                {
+                    return RedirectToAction("Details", "Post", new { id = postid });
+                }
+            }
+            return View(contentsEdit);
+        }
         [HttpGet]
         public IActionResult DeletePost()
         {

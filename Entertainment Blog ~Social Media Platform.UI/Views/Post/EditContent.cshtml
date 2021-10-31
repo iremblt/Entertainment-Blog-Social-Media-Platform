@@ -1,0 +1,39 @@
+﻿@model ContentsEditListDTO
+@{
+    ViewData["Title"] = "Edit Content";
+}
+<form asp-controller="Post" asp-action="EditContent" method="post">
+    <br />@Html.AntiForgeryToken()
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Content
+                </div>
+                @for (int i = 0; i < Model.ContentsEdits.Count; i++)
+                {
+                    <input type="hidden" asp-for="@Model.ContentsEdits[i].Id" />
+                    <input type="hidden" asp-for="@Model.ContentsEdits[i].PostId" />
+                    <div class="card-body">
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Text" asp-for="@Model.ContentsEdits[i].Text"></textarea>
+                            <span asp-validation-for="@Model.ContentsEdits[i].Text" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <img class="featured-image img-fluid" src="/img/@Model.ContentsEdits[i].Image" />
+                            <input class="form-control" placeholder="Image" asp-for="@Model.ContentsEdits[i].Image" />
+                            <span asp-validation-for="@Model.ContentsEdits[i].Image" class="text-danger"></span>
+                        </div>
+                    </div>
+                }
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input" asp-for="AddMoreContent" />
+                    <label class="form-check-label" asp-for="AddMoreContent"> Do you want to add more contents?</label>
+                    <span asp-validation-for="AddMoreContent" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-danger btn-sm">Done</button>
+                <button type="submit" class="btn btn-primary btn-sm">Add More Content</button>
+            </div>
+            </div>
+    </div>
+</form>

@@ -4,7 +4,6 @@ namespace Entertainment_Blog.DTO.DTOs.ContentDTO
 {
     public class ContentsAddDTO
     {
-        public int Id { get; set; }
         public string Text { get; set; }
         public string Image { get; set; }
         public PostListDTO Post { get; set; }
