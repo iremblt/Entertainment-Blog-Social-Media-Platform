@@ -1,0 +1,38 @@
+﻿@model List<PostListDTO>
+@{
+    ViewData["Title"] = "GetPostsByCategoryName";
+}
+<div class="col-sm-8">
+    <div class="row">
+        @if (Model.Count() == 0)
+        {
+            <div class="alert alert-warning"> There is no post in this category. You can check another categories.</div>
+        }
+        else
+        {
+            @foreach(var post in Model)
+            {
+                <div class="col-md-6 mb-5">
+                        <div class="card">
+                            <a asp-action="Details" asp-controller="Post" asp-route-id="@post.Id">
+                                <img src="/img/@post.Thumbnail" class="rounded mb-4" alt="@post.Title" width="1280" height="720">
+                            </a>
+                            <div class="card-block">
+                                <h2 class="card-title h4 serif-font"><a asp-action="Details" asp-controller="Post" asp-route-id="@post.Id">@post.Title</a></h2>
+                                <p class="card-text text-muted">@post.Summary</p>
+                                <div class="metafooter">
+                                    <div class="wrapfooter small d-flex align-items-center">
+                                        <span class="author-meta">
+                                            By  <span class="post-name"> Sal, </span>
+                                            on <span class="post-date">@post.PublishDate</span>
+                                        </span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 }
+             }
+     </div>
+</div>

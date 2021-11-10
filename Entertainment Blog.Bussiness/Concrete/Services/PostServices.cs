@@ -18,7 +18,7 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         private readonly ICategoryService categoryService;
         private readonly ITagService tagService;
         private IMapper mapper;
-        public PostServices(IPostRepository _postRepository,IMapper _mapper, ICategoryService _categoryService, ITagService _tagService)
+        public PostServices(IPostRepository _postRepository, IMapper _mapper, ICategoryService _categoryService, ITagService _tagService)
         {
             postRepository = _postRepository;
             categoryService = _categoryService;
@@ -29,8 +29,8 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         {
             var adding = mapper.Map<PostAddDTO, Post>(post);
             await postRepository.AddAsync(adding);
-            await postRepository.AddCategoryForPost(adding,post.CategoryIds);
-            var added=  await postRepository.AddTagForPost(adding, post.TagIds);
+            await postRepository.AddCategoryForPost(adding, post.CategoryIds);
+            var added = await postRepository.AddTagForPost(adding, post.TagIds);
             await postRepository.SaveAsync();
             return added;
         }
@@ -44,7 +44,7 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         public async Task<Post> EditPostAsync(PostEditDTO post)
         {
             var beforeupdating = postRepository.GetPostByIdWithContents(post.Id);
-            var updating = mapper.Map<PostEditDTO,Post>(post,postRepository.GetPostByIdWithCategoriesAndTags(Types.PostCategories|Types.PostTags,post.Id));
+            var updating = mapper.Map<PostEditDTO, Post>(post, postRepository.GetPostByIdWithCategoriesAndTags(Types.PostCategories | Types.PostTags, post.Id));
             updating.PublishDate = beforeupdating.PublishDate;
             updating.Contents = beforeupdating.Contents;
             await postRepository.AddCategoryForPost(updating, post.CategoryIds);
@@ -54,16 +54,16 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         }
         public async Task<PostListDTO> GetPostByIdAsync(int id)
         {
-            var result= await postRepository.GetByIdAsync(id);
+            var result = await postRepository.GetByIdAsync(id);
             if (result == null) { return null; }
-            return mapper.Map<Post,PostListDTO>(result);
+            return mapper.Map<Post, PostListDTO>(result);
         }
 
         public PostListDTO GetPostByIdIncludeCategories(int id)
         {
-            var get = postRepository.GetPostByIdWithCategoriesAndTags(Types.PostCategories,id);
+            var get = postRepository.GetPostByIdWithCategoriesAndTags(Types.PostCategories, id);
             return mapper.Map<Post, PostListDTO>(get);
-        }     
+        }
         public PostEditDTO GetEditPostByIdIncludeCategoriesAndTags(int id)
         {
             var get = postRepository.GetPostByIdWithCategoriesAndTags(Types.PostCategories | Types.PostTags, id);
@@ -80,7 +80,7 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         {
             var lists = await postRepository.GetAllAsync();
             return mapper.Map<List<PostListDTO>>(lists);
-        }        
+        }
         public List<PostListDTO> GetPostsOrderByDateTime()
         {
             var lists = postRepository.GetPostsOrderByDate();
@@ -134,6 +134,20 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
                 SelectedTags = postEdit.PostTags
             };
             return editing;
+        }
+        public async Task<List<PostListDTO>> GetPostByCategoryIdAsync(int id)
+        {
+            var categories = categoryService.GetCategoryByIdWithPost(id);
+            var postlist = new List<PostListDTO>();
+            foreach (var category in categories.PostCategories)
+            {
+                var post = await GetPostByIdAsync(category.PostId);
+                if (post != null)
+                {
+                    postlist.Add(post);
+                }
+            }
+            return postlist.OrderByDescending(i=>i.PublishDate).ToList();
         }
     }
 }

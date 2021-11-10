@@ -14,6 +14,6 @@ namespace Entertainment_Blog.Bussiness.Abstract
         Task DeleteCategoryAsync(int id);
         List<CategoryListDTO> GetCategoriesIncludePosts();
         CategoryEditDTO GetCategoryByIdWithPost(int id);
-        Task<Category> PostDeleteFromTheCategoryAsync(Category category, List<int> PostIds);
+        Category PostDeleteFromTheCategory(Category category, List<int> PostIds);
     }
 }

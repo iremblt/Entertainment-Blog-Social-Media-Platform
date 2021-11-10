@@ -147,6 +147,10 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
         {
             return View(postDelete);
         }
-
+        // /categoryadı olsa daha iyi olabilirdi slug
+        public async Task<IActionResult> GetPostsByCategory(int id)
+        {
+            return View(await _postService.GetPostByCategoryIdAsync(id));
+        }
     }
 }

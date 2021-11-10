@@ -8,6 +8,5 @@ namespace Entertainment_Blog.DataAccess.Abstract
     {
         List<Category> GetCategoriesIncludePosts(Types types);
         Category GetCategoryByIdWithPost(Types types,int id);
-        Category GetAddOrEditCategoryByIdWithPost(int id);
     }
 }

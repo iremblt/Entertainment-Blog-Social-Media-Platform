@@ -24,9 +24,9 @@
                         @foreach (var tags in Model.TagList)
                         {
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="PostEdit.TagIds" value="@tags.Id" id="tags_@(tags.Id)"
+                                <input class="form-check-input" type="checkbox" name="PostEdit.TagIds" value="@tags.Id"
                                        @(Model.SelectedTags != null && Model.SelectedTags.Any(i => i.TagId == tags.Id) ? "checked" : "") />
-                                <label class="form-check-label" for="tags_@(tags.Id)">@tags.Name</label>
+                                <label class="form-check-label">@tags.Name</label>
                             </div>
                         }
                         <span asp-validation-for="PostEdit.TagIds" class="text-danger"></span>
@@ -48,7 +48,7 @@
                         @foreach (var categories in Model.CategoryList)
                         {
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="PostEdit.CategoryIds" value="@categories.Id" id="category_@(categories.Id)"
+                                <input class="form-check-input" type="checkbox" name="PostEdit.CategoryIds" value="@categories.Id"
                                        @(Model.SelectedCategories != null && Model.SelectedCategories.Any(i => i.CategoryId == categories.Id) ? "checked" : "") />
                                 <label class="form-check-label" for="category_@(categories.Id)">@categories.Name</label>
                             </div>

@@ -26,10 +26,10 @@
                         @foreach (var post in Model.PostCategories)
                         {
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" name="PostIds" value="@post.PostId" id="post_@(post.PostId)" />
-                            <label class="form-check-label" for="post_@(post.PostId)">@post.Post.Title</label>
-                            <img class="featured-image img-fluid" for="post_@(post.PostId)" src="~/img/@post.Post.Thumbnail" alt="@post.Post.Title">
-                        </div>
+                            <input class="form-check-input" type="checkbox" name="PostIds" value="@post.PostId"/>
+                            <label class="form-check-label">@post.Post.Title</label>
+                            <img class="featured-image img-fluid" src="~/img/@post.Post.Thumbnail" alt="@post.Post.Title">
+                        </div>  
                         }
                     </div>
                     <div class="form-group">

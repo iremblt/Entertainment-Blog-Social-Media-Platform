@@ -6,9 +6,11 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.ViewComponents
     public class MenuViewComponent:ViewComponent
     {
         private ICategoryService _categoryService;
-        public MenuViewComponent(ICategoryService categoryService)
+        private IPostService _postService;
+        public MenuViewComponent(ICategoryService categoryService, IPostService postService)
         {
             _categoryService = categoryService;
+            _postService = postService;
         }
         public IViewComponentResult Invoke()
         {

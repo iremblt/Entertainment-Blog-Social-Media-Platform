@@ -51,8 +51,8 @@
                         @foreach (var categories in Model.CategoryList)
                         {
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="PostAdd.CategoryIds" value="@categories.Id" id="category_@(categories.Id)"/>
-                                <label class="form-check-label" for="category_@(categories.Id)">@categories.Name</label>
+                                <input class="form-check-input" type="checkbox" name="PostAdd.CategoryIds" value="@categories.Id">
+                                <label class="form-check-label">@categories.Name</label>
                             </div>
                         }
                         <span asp-validation-for="PostAdd.CategoryIds" class="text-danger"></span>

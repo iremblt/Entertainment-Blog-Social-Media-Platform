@@ -25,5 +25,6 @@ namespace Entertainment_Blog.Bussiness.Abstract
         Task<PostNextAndLastDTO> GetNextAndLastPostOfThePostAsync(int id);
         IQueryable<PostListDTO> SearchPost(SearchDTO search);
         Task<EdittingPostTagsCategoryDTO> MappingToEdittingPostTagsCategoryDTO(PostEditDTO postEdits);
+        Task<List<PostListDTO>> GetPostByCategoryIdAsync(int id);
     }
 }

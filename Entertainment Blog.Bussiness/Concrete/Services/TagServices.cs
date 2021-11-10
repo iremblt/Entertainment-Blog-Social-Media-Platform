@@ -23,11 +23,10 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         public async Task AddOrEditTagAsync(TagAddOrEditDTO tag)
         {
             if (tag.Id != 0)
-            {//Id tracking by another instance!!
-                var getTag = tagRepository.GetEditTagIdIncludePosts(tag.Id); 
-                var updating = mapper.Map<TagAddOrEditDTO, Tag>(tag, tagRepository.GetTagsByIdWithPost(Types.PostTags, tag.Id));
-                updating.PostTags = getTag.PostTags;
-                var item = PostDeleteFromTheTag(updating, tag.PostIds);
+            {
+                var getTag = tagRepository.GetTagsByIdWithPost(Types.PostTags,tag.Id); 
+                getTag.Name = tag.Name;
+                var item = PostDeleteFromTheTag(getTag, tag.PostIds);
                 await tagRepository.UpdateAsync(item);
             }
             else

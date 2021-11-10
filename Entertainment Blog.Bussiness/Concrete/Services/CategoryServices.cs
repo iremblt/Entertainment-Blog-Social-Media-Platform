@@ -2,6 +2,7 @@
 using Entertainment_Blog.Bussiness.Abstract;
 using Entertainment_Blog.DataAccess.Abstract;
 using Entertainment_Blog.DTO.DTOs.CategoryDTO;
+using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.Entity.Concrete;
 using Entertainment_Blog.Entity.Enums;
 using System.Collections.Generic;
@@ -42,28 +43,18 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         }        
         public async Task EditCategoryAsync(CategoryEditDTO category)
         {
-            var cat = categoryRepository.GetAddOrEditCategoryByIdWithPost(category.Id); //Id tracking by another instance!!
-            var adding = mapper.Map<CategoryEditDTO, Category>(category,categoryRepository.GetCategoryByIdWithPost(Types.PostCategories,category.Id));
-            adding.PostCategories = cat.PostCategories;
-            var item= await PostDeleteFromTheCategoryAsync(adding, category.PostIds);
+            var cat=categoryRepository.GetCategoryByIdWithPost(Types.PostCategories,category.Id);
+            cat.Name = category.Name;
+            var item= PostDeleteFromTheCategory(cat, category.PostIds);
             await categoryRepository.UpdateAsync(item);
         }
-        // Post id tracking by another !!
-        public async Task<Category> PostDeleteFromTheCategoryAsync(Category category, List<int> PostIds)
+        public Category PostDeleteFromTheCategory(Category category, List<int> PostIds)
         {
             if (PostIds !=null)
             {
                 foreach (var post in PostIds)
                 {
-                    //var postCategory = category.PostCategories.FirstOrDefault(i => i.PostId == post);
-                    //var postCategory= postCatRepository.GetByPostCategoryId(post,category.Id);
-                    //if (postCategory != null)
-                    //{
-                    //    category.PostCategories.Remove(postCategory);
-                    //    //await postCatRepository.RemoveAsync(postCategory);
-                    //}
                     category.PostCategories.Remove(category.PostCategories.FirstOrDefault(i => i.PostId == post));
-                    //var issucced=category.PostCategories.Remove(cat);
                 }
             }
             return category;
