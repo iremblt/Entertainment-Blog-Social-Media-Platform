@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Map
+namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Configuration
 {
     public class ContentsMap : IEntityTypeConfiguration<Contents>
     {

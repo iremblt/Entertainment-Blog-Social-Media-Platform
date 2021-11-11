@@ -1,11 +1,13 @@
 ﻿using Entertainment_Blog.Bussiness.Abstract;
 using Entertainment_Blog.DTO.DTOs.TagDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
 {
+    [Authorize]
     public class TagController : Controller
     {
         private readonly ITagService tagService;

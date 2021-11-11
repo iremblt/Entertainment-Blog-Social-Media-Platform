@@ -4,14 +4,16 @@ using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entertainment_Blog.DataAccess.Migrations
 {
     [DbContext(typeof(EntertainmentBlogContext))]
-    partial class EntertainmentBlogContextModelSnapshot : ModelSnapshot
+    [Migration("20211111124040_AddUserIdentity")]
+    partial class AddUserIdentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -132,35 +134,6 @@ namespace Entertainment_Blog.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.Contents", b =>
@@ -399,23 +372,6 @@ namespace Entertainment_Blog.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.Comment", b =>
-                {
-                    b.HasOne("Entertainment_Blog.Entity.Concrete.Post", "Post")
-                        .WithMany("Comments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Entertainment_Blog.Entity.Concrete.ApplicationUser", "User")
-                        .WithMany("Comments")
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.Contents", b =>
                 {
                     b.HasOne("Entertainment_Blog.Entity.Concrete.Post", "Post")
@@ -527,8 +483,6 @@ namespace Entertainment_Blog.DataAccess.Migrations
 
             modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.ApplicationUser", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("Posts");
                 });
 
@@ -539,8 +493,6 @@ namespace Entertainment_Blog.DataAccess.Migrations
 
             modelBuilder.Entity("Entertainment_Blog.Entity.Concrete.Post", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("Contents");
 
                     b.Navigation("PostCategories");

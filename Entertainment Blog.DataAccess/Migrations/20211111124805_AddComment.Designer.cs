@@ -4,14 +4,16 @@ using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entertainment_Blog.DataAccess.Migrations
 {
     [DbContext(typeof(EntertainmentBlogContext))]
-    partial class EntertainmentBlogContextModelSnapshot : ModelSnapshot
+    [Migration("20211111124805_AddComment")]
+    partial class AddComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

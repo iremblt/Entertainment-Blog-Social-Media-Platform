@@ -5,4 +5,8 @@
     <RootNamespace>Entertainment_Blog.DTO</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Entertainment Blog.Entity\Entertainment Blog.Entity.csproj" />
+  </ItemGroup>
+
 </Project>

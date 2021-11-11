@@ -5,8 +5,10 @@ using Entertainment_Blog.DataAccess.Abstract;
 using Entertainment_Blog.DataAccess.Concrete;
 using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Contexts;
 using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories;
+using Entertainment_Blog.Entity.Concrete;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,6 +39,14 @@ namespace Entertainment_Blog__Social_Media_Platform.UI
             services.AddScoped<IPostCategoryService, PostCategoryServices>();
             services.AddScoped<IPostTagService, PostTagServices>();
             services.AddScoped<IContentsService, ContentsServices>();
+            services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
+            {
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 6;
+            })
+                .AddEntityFrameworkStores<EntertainmentBlogContext>()
+                .AddDefaultTokenProviders();
             services.AddAutoMapper(typeof(AutoMappingProfile));
             services.AddControllersWithViews();
         }
@@ -57,6 +67,7 @@ namespace Entertainment_Blog__Social_Media_Platform.UI
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

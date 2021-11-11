@@ -13,7 +13,9 @@ namespace Entertainment_Blog.Entity.Concrete
         public bool IsPublished { get; set; } = false;
         public ICollection<PostCategory> PostCategories { get; set; }
         public ICollection<PostTag> PostTags { get; set; }
-
+        public ApplicationUser User { get; set; }
+        public string UserId { get; set; }
+        public List<Comment> Comments { get; set; }
 
         //Identity özelliklerini ekledikten sonraa comment falan da eklersin!
         //public int ViewCount { get; set; }

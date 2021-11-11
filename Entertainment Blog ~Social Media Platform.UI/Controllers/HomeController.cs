@@ -2,7 +2,6 @@
 using Entertainment_Blog.DTO.DTOs.SearchDTO;
 using Entertainment_Blog__Social_Media_Platform.UI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Linq;
 
@@ -10,12 +9,10 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IPostService _postService;
 
-        public HomeController(ILogger<HomeController> logger,IPostService postService)
+        public HomeController(IPostService postService)
         {
-            _logger = logger;
             _postService = postService;
         }
 
@@ -31,8 +28,7 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
             {
                 return View(lists);
             }
-        }           
-
+        }                 
         public IActionResult Privacy()
         {
             return View();

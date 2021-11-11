@@ -5,6 +5,7 @@ using Entertainment_Blog.DTO.DTOs.PostCategoryDTO;
 using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.DTO.DTOs.PostTagDTO;
 using Entertainment_Blog.DTO.DTOs.TagDTO;
+using Entertainment_Blog.DTO.DTOs.UserDTO;
 using Entertainment_Blog.Entity.Concrete;
 
 namespace Entertainment_Blog.Bussiness.Concrete.Mapping
@@ -32,6 +33,9 @@ namespace Entertainment_Blog.Bussiness.Concrete.Mapping
             CreateMap<Contents,ContentsAddDTO>().ReverseMap();
             CreateMap<Contents,ContentsEditDTO>().ReverseMap();
             CreateMap<Contents,ContentsDeleteDTO>().ReverseMap();
+            CreateMap<ApplicationUser,RegisterDTO>().ReverseMap();
+            CreateMap<ApplicationUser,LogInDTO>().ReverseMap();
+            CreateMap<ApplicationUser,EditUserDTO>().ReverseMap();
         }
     }
 }
