@@ -19,6 +19,31 @@
                 <li class="nav-item">
                     <a class="nav-link"asp-action="Contact" asp-controller="Home">Contact</a>
                 </li>
+
+                @if(User.Identity.IsAuthenticated)
+                {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                
+                        <img width="30px" src="~/img/0c3b3adb1a7530892e55ef36d3be6cb8.png"/>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" asp-action="Profile" asp-controller="Account">Profile</a>
+                        <a class="dropdown-item" asp-action="LogOut" asp-controller="Account">Sign-Out</a>
+                    </div>
+                    </li>
+                }
+                else
+                {
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">                                
+                        <img width="30px" src="~/img/0c3b3adb1a7530892e55ef36d3be6cb8.png"/>
+                    </a>                    
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" asp-action="Signin" asp-controller="Account">Sign-in</a>
+                        <a class="dropdown-item" asp-action="Register" asp-controller="Account">Register</a>
+                    </div>
+                    </li>           
+                }
                 <partial name="/Views/Shared/_Search.cshtml" />
             </ul>
         </div>

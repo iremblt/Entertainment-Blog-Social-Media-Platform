@@ -1,0 +1,75 @@
+﻿@model SignInDTO
+@{
+    ViewData["Title"] = "Sign-in";
+}
+<form asp-controller="Account" asp-action="SignIn" method="post">
+    <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+    <br />@Html.AntiForgeryToken()
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <img width="150px" src="~/img/0c3b3adb1a7530892e55ef36d3be6cb8.png"/>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <center>
+                                <h3>Sign-In</h3>
+                            </center>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <hr />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label asp-for="EmailOrUserName">Email Or Username</label>
+                                <input class="form-control" asp-for="EmailOrUserName" />
+                                <span asp-validation-for="EmailOrUserName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Password"></label>
+                                <input class="form-control" asp-for="Password" type="password"/>
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="ConfirmPassword">Confirm Password</label>
+                                <input class="form-control" asp-for="ConfirmPassword" type="password"/>
+                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="form-check">
+                                <input type="checkbox" class="form-check-input" asp-for="RememberMe" />
+                                <label class="form-check-label" asp-for="RememberMe">Remember me</label>
+                                <span asp-validation-for="RememberMe" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success btn-block btn-lg"> Sign in </button>
+                            </div>                    
+                            <div class="form-check">
+                                <a asp-action="ResetPassword" asp-controller="Account">I forgot my password</a>
+                            </div>
+                            <div class="form-group">
+                                If you want to join us 
+                                <a asp-action="Register" asp-controller="Account">Register! </a>
+                            </div>  
+                            <blockquote>Your personal data is processed within the scope of the 
+                                <a href="https://policies.google.com/terms">Clarification Text</a> in the 
+                                <a href="https://policies.google.com/privacy">Privacy Policy</a>.
+                            By clicking the "Sign in" button, you confirm that you have read and accepted the User Agreement and Cookie Policy.</blockquote>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</form>

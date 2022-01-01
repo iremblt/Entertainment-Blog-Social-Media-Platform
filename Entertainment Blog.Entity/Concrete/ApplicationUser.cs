@@ -13,8 +13,8 @@ namespace Entertainment_Blog.Entity.Concrete
         public DateTime DateOfBirth { get; set; }
         public string ConfirmPassword { get; set; }
         public GenderTypes Gender { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
+        public CountryTypes Country { get; set; }
+        public string Address { get; set; }
         public string Job { get; set; }
         public string About { get; set; }
         public List<Post> Posts { get; set; }

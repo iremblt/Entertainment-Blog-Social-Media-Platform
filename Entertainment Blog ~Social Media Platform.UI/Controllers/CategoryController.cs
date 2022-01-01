@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
 {
     //Belirtilen postları istenilen categoryie eklemeyi ekle!
-    [Authorize]
+   // [Authorize]
     public class CategoryController : Controller
     {
         private readonly ICategoryService categoryService;

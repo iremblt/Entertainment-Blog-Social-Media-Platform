@@ -34,7 +34,7 @@ namespace Entertainment_Blog.Bussiness.Concrete.Mapping
             CreateMap<Contents,ContentsEditDTO>().ReverseMap();
             CreateMap<Contents,ContentsDeleteDTO>().ReverseMap();
             CreateMap<ApplicationUser,RegisterDTO>().ReverseMap();
-            CreateMap<ApplicationUser,LogInDTO>().ReverseMap();
+            CreateMap<ApplicationUser,SignInDTO>().ReverseMap();
             CreateMap<ApplicationUser,EditUserDTO>().ReverseMap();
         }
     }

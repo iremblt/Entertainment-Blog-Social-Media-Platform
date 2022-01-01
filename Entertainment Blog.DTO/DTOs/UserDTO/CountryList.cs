@@ -1,0 +1,216 @@
+﻿using System;
+using System.Collections.Generic;
+
+
+namespace Entertainment_Blog.DTO.DTOs.UserDTO
+{
+    public class CountryList
+    {
+        private List<String> Countries;
+        public CountryList(List<String> _Countries)
+        {
+            Countries = _Countries;
+        }
+        public void AddCategoriesToCountry() 
+        {
+            Countries.Add("Afghanistan");
+            Countries.Add("Albania");
+            Countries.Add("Algeria");
+            Countries.Add("Andorra");
+            Countries.Add("Angola");
+            Countries.Add("Antigua and Barbuda");
+            Countries.Add("Argentina");
+            Countries.Add("Armenia");
+            Countries.Add("Australia");
+            Countries.Add("Austria");
+            Countries.Add("Azerbaijan");
+            Countries.Add("Bahamas");
+            Countries.Add("Bangladesh");
+            Countries.Add("Barbados");
+            Countries.Add("Belarus");
+            Countries.Add("Belgium");
+            Countries.Add("Belize");
+            Countries.Add("Bolivia");
+            Countries.Add("Bosnia and Herzegovina");
+            Countries.Add("Botswana");
+            Countries.Add("Brazil");
+            Countries.Add("Brunei");
+            Countries.Add("Brunswick and Lüneburg");
+            Countries.Add("Bulgaria"); 
+            Countries.Add("Burma"); 
+            Countries.Add("Burundi"); 
+            Countries.Add("Cabo Verde"); 
+            Countries.Add("Cambodia"); 
+            Countries.Add("Cameroon"); 
+            Countries.Add("Canada"); 
+            Countries.Add("Cayman Islands"); 
+            Countries.Add("Chad"); 
+            Countries.Add("Chile"); 
+            Countries.Add("China"); 
+            Countries.Add("Colombia"); 
+            Countries.Add("Comoros"); 
+            Countries.Add("Congo Free State"); 
+            Countries.Add("Croatia"); 
+            Countries.Add("Cuba"); 
+            Countries.Add("Cyprus"); 
+            Countries.Add("Czechia"); 
+            Countries.Add("Czechoslovakia"); 
+            Countries.Add("Democratic Republic of the Congo"); 
+            Countries.Add("Denmark"); 
+            Countries.Add("Djibouti"); 
+            Countries.Add("Dominica"); 
+            Countries.Add("Dominican Republic"); 
+            Countries.Add("Duchy of Parma"); 
+            Countries.Add("Ecuador"); 
+            Countries.Add("Egypt"); 
+            Countries.Add("El Salvador"); 
+            Countries.Add("Equatorial Guinea"); 
+            Countries.Add("Eritrea"); 
+            Countries.Add("Estonia"); 
+            Countries.Add("Eswatini"); 
+            Countries.Add("Ethiopia"); 
+            Countries.Add("Fiji"); 
+            Countries.Add("Finland"); 
+            Countries.Add("France"); 
+            Countries.Add("Gabon"); 
+            Countries.Add("Gambia"); 
+            Countries.Add("Georgia"); 
+            Countries.Add("Germany"); 
+            Countries.Add("Ghana"); 
+            Countries.Add("Grand Duchy of Tuscany"); 
+            Countries.Add("Greece"); 
+            Countries.Add("Grenada"); 
+            Countries.Add("Guatemala"); 
+            Countries.Add("Guinea"); 
+            Countries.Add("Guyana"); 
+            Countries.Add("Haiti"); 
+            Countries.Add("Hungary"); 
+            Countries.Add("Iceland"); 
+            Countries.Add("India"); 
+            Countries.Add("Indonesia"); 
+            Countries.Add("Iran"); 
+            Countries.Add("Iraq"); 
+            Countries.Add("Ireland"); 
+            Countries.Add("Israel"); 
+            Countries.Add("Italy"); 
+            Countries.Add("Jamaica"); 
+            Countries.Add("Japan"); 
+            Countries.Add("Jordan"); 
+            Countries.Add("Kazakhstan"); 
+            Countries.Add("Kenya"); 
+            Countries.Add("Yugoslavia"); 
+            Countries.Add("Kiribati"); 
+            Countries.Add("Korea"); 
+            Countries.Add("Kosovo"); 
+            Countries.Add("Kuwait"); 
+            Countries.Add("Kyrgyzstan"); 
+            Countries.Add("Laos"); 
+            Countries.Add("Latvia"); 
+            Countries.Add("Lebanon"); 
+            Countries.Add("Lesotho"); 
+            Countries.Add("Liberia"); 
+            Countries.Add("Libya"); 
+            Countries.Add("Liechtenstein"); 
+            Countries.Add("Lithuania"); 
+            Countries.Add("Luxembourg"); 
+            Countries.Add("Madagascar"); 
+            Countries.Add("Malawi"); 
+            Countries.Add("Malaysia"); 
+            Countries.Add("Maldives"); 
+            Countries.Add("Mali"); 
+            Countries.Add("Malta"); 
+            Countries.Add("Marshall Islands"); 
+            Countries.Add("Mauritania"); 
+            Countries.Add("Mauritius"); 
+            Countries.Add("Mexico"); 
+            Countries.Add("Micronesia"); 
+            Countries.Add("Moldova"); 
+            Countries.Add("Monaco"); 
+            Countries.Add("Mongolia"); 
+            Countries.Add("Montenegro"); 
+            Countries.Add("Morocco"); 
+            Countries.Add("Mozambique"); 
+            Countries.Add("Namibia"); 
+            Countries.Add("Nauru"); 
+            Countries.Add("Nepal"); 
+            Countries.Add("Netherlands"); 
+            Countries.Add("New Zealand"); 
+            Countries.Add("Nicaragua"); 
+            Countries.Add("Niger"); 
+            Countries.Add("Nigeria");
+            Countries.Add("North Macedonia");
+            Countries.Add("Norway");
+            Countries.Add("Oman");
+            Countries.Add("Pakistan");
+            Countries.Add("Palau");
+            Countries.Add("Panama");
+            Countries.Add("Papua New Guinea");
+            Countries.Add("Paraguay");
+            Countries.Add("Peru");
+            Countries.Add("Philippines");
+            Countries.Add("Poland");
+            Countries.Add("Portugal");
+            Countries.Add("Qatar");
+            Countries.Add("Republic of Genoa");
+            Countries.Add("South Korea");
+            Countries.Add("Republic of the Congo");
+            Countries.Add("Romania");
+            Countries.Add("Russia");
+            Countries.Add("Rwanda");
+            Countries.Add("Saint Kitts and Nevis");
+            Countries.Add("Saint Lucia");
+            Countries.Add("Saint Vincent and the Grenadines");
+            Countries.Add("Samoa");
+            Countries.Add("San Marino");
+            Countries.Add("Sao Tome and Principe");
+            Countries.Add("Saudi Arabia");
+            Countries.Add("Senegal");
+            Countries.Add("Serbia");
+            Countries.Add("Seychelles");
+            Countries.Add("Sierra Leone");
+            Countries.Add("Singapore");
+            Countries.Add("Slovakia");
+            Countries.Add("Slovenia");
+            Countries.Add("Solomon Islands");
+            Countries.Add("Somalia");
+            Countries.Add("South Africa");
+            Countries.Add("South Sudan");
+            Countries.Add("Spain");
+            Countries.Add("Sri Lanka");
+            Countries.Add("Sudan");
+            Countries.Add("Suriname");
+            Countries.Add("Sweden");
+            Countries.Add("Switzerland");
+            Countries.Add("Syria");
+            Countries.Add("Tajikistan");
+            Countries.Add("Tanzania");
+            Countries.Add("Texas");
+            Countries.Add("Thailand");
+            Countries.Add("Togo");
+            Countries.Add("Tonga");
+            Countries.Add("Tunisia");
+            Countries.Add("Turkey");
+            Countries.Add("Turkmenistan");
+            Countries.Add("Tuvalu");
+            Countries.Add("Two Sicilies");
+            Countries.Add("Uganda");
+            Countries.Add("Union of Soviet Socialist Republics");
+            Countries.Add("United Arab Emirates");
+            Countries.Add("United Kingdom");
+            Countries.Add("Uruguay");
+            Countries.Add("Uzbekistan");
+            Countries.Add("Vanuatu");
+            Countries.Add("Venezuela");
+            Countries.Add("Vietnam");
+            Countries.Add("Yemen");
+            Countries.Add("Zambia");
+            Countries.Add("Zimbabwe");
+
+
+
+
+
+
+        }
+    }
+}

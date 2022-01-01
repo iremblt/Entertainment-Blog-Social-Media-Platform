@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class TagController : Controller
     {
         private readonly ITagService tagService;

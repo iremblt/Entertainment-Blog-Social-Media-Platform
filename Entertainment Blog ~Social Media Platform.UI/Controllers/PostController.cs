@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class PostController : Controller
     {
         private readonly IPostService _postService;
@@ -23,7 +23,7 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
             _tagService = tagService;
             _contentsService = contentsService;
         }       
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var detail = await _postService.GetNextAndLastPostOfThePostAsync(id);
