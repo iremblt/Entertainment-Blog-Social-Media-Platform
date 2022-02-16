@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Entertainment_Blog.Entity.Concrete;
+using System;
+using System.Collections.Generic;
 
 namespace Entertainment_Blog.DTO.DTOs.UserDTO
 {
-    public class RegisterDTO
+    public class UserDetailsDTO
     {
-        public string Id { get; set; }    
+        public string Id { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
@@ -17,6 +19,7 @@ namespace Entertainment_Blog.DTO.DTOs.UserDTO
         public CountryTypes Country { get; set; }
         public string Address { get; set; }
         public string Job { get; set; }
+        public string About { get; set; }
         public enum GenderTypes
         {
             Female,
@@ -200,5 +203,7 @@ namespace Entertainment_Blog.DTO.DTOs.UserDTO
             Zambia,
             Zimbabwe,
         }
+        public List<Post> Posts { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

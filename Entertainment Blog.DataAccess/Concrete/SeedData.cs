@@ -4,6 +4,8 @@ using System.Linq;
 using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Contexts;
 using Entertainment_Blog.Entity.Concrete;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +13,7 @@ namespace Entertainment_Blog.DataAccess.Concrete
 {
     public static class SeedData
     {
-        public static void Seed(IApplicationBuilder app)
+        public static async void Seed(IApplicationBuilder app)
         {
             var scope = app.ApplicationServices.CreateScope();
             var context = scope.ServiceProvider.GetService<EntertainmentBlogContext>();
@@ -51,6 +53,109 @@ namespace Entertainment_Blog.DataAccess.Concrete
                     new Tag() { Name="Wedding"},
                     new Tag() { Name="Director"}
             };
+            var users = new List<ApplicationUser>() {
+                new ApplicationUser()
+                {
+                    Name="Freya",
+                    Surname="Allan",
+                    UserName="Freyaallan",
+                    NormalizedUserName="FREYAALLAN",
+                    About="Hello, everyone I am Freya Allan. I am an actresss. I am 20 years old. Right now, I play the role Ciri in Witcher. ",
+                    DateOfBirth=new DateTime(2001,9,6),
+                    Country=Entity.Enums.CountryTypes.UnitedKingdom,
+                    Email="freyaallan@gmail.com",
+                    NormalizedEmail="FREYYAALLAN@GMAIL.COM",
+                    Gender=Entity.Enums.GenderTypes.Female,
+                    Job="Actress",
+                    Picture="5716172.jpg",
+                    Address="United Kingdom",
+                    PhoneNumber="4547420254",
+                    PhoneNumberConfirmed=true,
+                    EmailConfirmed=true,
+                    SecurityStamp=Guid.NewGuid().ToString(),
+                    ConcurrencyStamp=Guid.NewGuid().ToString(),
+                    ConfirmPassword="Witcherciri01",
+                },
+                new ApplicationUser()
+                {
+                    Name="Tom",
+                    Surname="Hanks",
+                    UserName="TomHanks01",
+                    NormalizedUserName="TOMHANKS01",
+                    About="Hello, everyone I am Tom Hanks. I am an actor. I played most popular films. Right now, I am writing some posts and I publish them in here. ",
+                    DateOfBirth=new DateTime(1956,8,9),
+                    Country=Entity.Enums.CountryTypes.Brazil,
+                    Email="tomhanks01@hotmail.com",
+                    NormalizedEmail="TOMHANKS01@HOTMAIL.COM",
+                    Gender=Entity.Enums.GenderTypes.Male,
+                    Job="Actor",
+                    Picture="tomhanks.jpg",
+                    Address="United Kingdom",
+                    PhoneNumber="3547420254",
+                    SecurityStamp=Guid.NewGuid().ToString(),
+                    ConcurrencyStamp=Guid.NewGuid().ToString(),
+                    ConfirmPassword="ForrestGump56",
+                },
+                new ApplicationUser()
+                {
+                    Name="Austin Richard",
+                    Surname="Post",
+                    UserName="PostMalone",
+                    NormalizedUserName="POSTMALONE",
+                    About="Hello, everyone I am Austin Richard Post, most people know me as Post Malone. I am a rapper. I love singing songs. I want to share my experience with you. ",
+                    DateOfBirth=new DateTime(1995,8,4),
+                    Country=Entity.Enums.CountryTypes.UnitedKingdom,
+                    Email="autinrichardpost@hotmail.com",
+                    NormalizedEmail="AUTINRICHARDPOST@HOTMAIL.COM",
+                    Gender=Entity.Enums.GenderTypes.Male,
+                    Job="Rapper",
+                    Picture="postmalone.jpg",
+                    Address="United Kingdom in New York",
+                    PhoneNumber="7547420254",
+                    SecurityStamp=Guid.NewGuid().ToString(),
+                    ConcurrencyStamp=Guid.NewGuid().ToString(),
+                    ConfirmPassword="Sunflower95"
+                },
+                new ApplicationUser()
+                {
+                    Name="İrem",
+                    Surname="Bulut",
+                    UserName="iremblt",
+                    NormalizedUserName="IREMBLT",
+                    About="Hello, everyone I am İrem Bulut. I am a student. I like reading posts and comments of them. ",
+                    DateOfBirth=new DateTime(2000,4,12),
+                    Country=Entity.Enums.CountryTypes.Turkey,
+                    Email="irem_bulut_626@hotmail.com",
+                    NormalizedEmail="IREM_BULUT_626@HOTMAIL.COM",
+                    Gender=Entity.Enums.GenderTypes.Female,
+                    Job="Student",
+                    Picture="avatar3.jpg",
+                    Address="Turkey in İstanbul",
+                    PhoneNumber="5378445151",
+                    SecurityStamp=Guid.NewGuid().ToString(),
+                    ConcurrencyStamp=Guid.NewGuid().ToString(),
+                    ConfirmPassword="İremblt00"
+                },
+                new ApplicationUser()
+                {
+                    Name="Kerem",
+                    Surname="Can",
+                    UserName="none",
+                    NormalizedUserName="NONE",
+                    About="Hello, everyone I am Kerem Can.",
+                    DateOfBirth=new DateTime(2003,5,1),
+                    Country=Entity.Enums.CountryTypes.Germany,
+                    Email="none@hotmail.com",
+                    NormalizedEmail="NONE@HOTMAIL.COM",
+                    Gender=Entity.Enums.GenderTypes.Male,
+                    Job="Librarian",
+                    Address="Germany in Hamburg",
+                    PhoneNumber="784513221",
+                    SecurityStamp=Guid.NewGuid().ToString(),
+                    ConcurrencyStamp=Guid.NewGuid().ToString(),
+                    ConfirmPassword="fakeAccount03"
+                }
+            };
             var posts = new List<Post>()
             {
                  new Post() 
@@ -60,6 +165,7 @@ namespace Entertainment_Blog.DataAccess.Concrete
                      IsPublished=false,
                      PublishDate=DateTime.Now.AddDays(-200),
                      Summary= "There are works that have influenced their readers for hundreds of years and have guided human behavior for generations. Undoubtedly, one of the most well-known of these is “What Does Man Live By?” It is the work of the famous writer L. N. Tolstoy.",
+                     User=users[1]
                  },
                  new Post()
                  {
@@ -68,6 +174,7 @@ namespace Entertainment_Blog.DataAccess.Concrete
                      IsPublished=false,
                      PublishDate=DateTime.Now,
                      Summary="WhatsApp is coming to a feature that we have been waiting for a long time, which will make those who love to send voice messages happy. WhatsApp, which is under the umbrella of Facebook, will now allow us to see voice messages in text format whenever we want.",
+                     User= users[0]
                  },
                  new Post()
                  {
@@ -76,6 +183,7 @@ namespace Entertainment_Blog.DataAccess.Concrete
                      IsPublished=false,
                      PublishDate=DateTime.Now.AddDays(-4),
                      Summary="You can access the feature by typing Google Tuner in the search field. The search engine, which supports search results such as weather, currency, time zone and calculator with widgets, offers musicians a new widget.",
+                     User = users[2]
                  }
                  //new Post()
                  //{
@@ -274,6 +382,44 @@ namespace Entertainment_Blog.DataAccess.Concrete
                 //    Post=posts[3]
                 //}
             };
+            var comment = new List<Comment>()
+            {
+                new Comment()
+                {
+                    Date= DateTime.Now,
+                    Message="Hey, I like your every posts. I am very big you. I will read this book as soon as possible.",
+                    Post=posts[0],
+                    User=users[3]
+                },
+                new Comment()
+                {
+                    Date= DateTime.Now.AddDays(-40),
+                    Message="I saw this feature and I really like it. Because sometimes, I am too lazy to write message.",
+                    Post=posts[1],
+                    User=users[3]
+                },
+                new Comment()
+                {
+                    Date= DateTime.Now.AddDays(-65),
+                    Message="Hey, I read this book and it was not perfect like your mentioned. I didnt understand how did you like this book.",
+                    Post=posts[0],
+                    User=users[4]
+                },
+                new Comment()
+                {
+                    Date= DateTime.Now.AddDays(50),
+                    Message="I am learning playing guitar. So, this feature is it will be good for me",
+                    Post=posts[2],
+                    User=users[0]
+                },
+                new Comment()
+                {
+                    Date= DateTime.Now.AddDays(-40),
+                    Message="I cant play guitar. I am very bad too playing, but who know the playing guiar, there will be good oppornutiy for them",
+                    Post=posts[2],
+                    User=users[1]
+                }
+            };
             if (!context.Database.GetPendingMigrations().Any())
             {
                 if (!context.Categories.Any())
@@ -283,7 +429,22 @@ namespace Entertainment_Blog.DataAccess.Concrete
                 if (!context.Tags.Any())
                 {
                     context.Tags.AddRange(tags);
-                }                
+                }
+                if (!context.Users.Any())
+                {
+                    var password = new PasswordHasher<ApplicationUser>();
+                    users[0].PasswordHash = password.HashPassword(users[0], "Witcherciri01");
+                    users[1].PasswordHash = password.HashPassword(users[1], "ForrestGump56");
+                    users[2].PasswordHash = password.HashPassword(users[2], "Sunflower95");
+                    users[3].PasswordHash = password.HashPassword(users[3], "İremblt00");
+                    users[4].PasswordHash = password.HashPassword(users[4], "fakeAccount03");
+                    var userStore = new UserStore<ApplicationUser>(context);
+                    await userStore.CreateAsync(users[0]);
+                    await userStore.CreateAsync(users[1]);
+                    await userStore.CreateAsync(users[2]);
+                    await userStore.CreateAsync(users[3]);
+                    await userStore.CreateAsync(users[4]);
+                }
                 if (!context.Posts.Any())
                 {
                     context.Posts.AddRange(posts);
@@ -299,6 +460,10 @@ namespace Entertainment_Blog.DataAccess.Concrete
                 if (!context.Contents.Any())
                 {
                     context.Contents.AddRange(contents);
+                }
+                if (!context.Comments.Any())
+                {
+                    context.Comments.AddRange(comment);
                 }
                 context.SaveChanges();
             }

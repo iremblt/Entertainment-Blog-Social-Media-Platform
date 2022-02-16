@@ -12,6 +12,18 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using FluentValidation.AspNetCore;
+using Entertainment_Blog.DTO.DTOs.UserDTO;
+using FluentValidation;
+using Entertainment_Blog.Bussiness.Concrete.FluentValidation.UserValidation;
+using Entertainment_Blog.DTO.DTOs.CategoryDTO;
+using Entertainment_Blog.Bussiness.Concrete.FluentValidation.CategoryValidation;
+using Entertainment_Blog.DTO.DTOs.ContentDTO;
+using Entertainment_Blog.Bussiness.Concrete.FluentValidation.ContentValidatation;
+using Entertainment_Blog.DTO.DTOs.PostDTO;
+using Entertainment_Blog.Bussiness.Concrete.FluentValidation.PostValidation;
+using Entertainment_Blog.Bussiness.Concrete.FluentValidation.TagValidation;
+using Entertainment_Blog.DTO.DTOs.TagDTO;
 
 namespace Entertainment_Blog__Social_Media_Platform.UI
 {
@@ -50,7 +62,18 @@ namespace Entertainment_Blog__Social_Media_Platform.UI
                 .AddEntityFrameworkStores<EntertainmentBlogContext>()
                 .AddDefaultTokenProviders();
             services.AddAutoMapper(typeof(AutoMappingProfile));
-            services.AddControllersWithViews();
+
+            services.AddControllersWithViews().AddFluentValidation();
+            services.AddTransient<IValidator<RegisterDTO>, RegisterValidator>();
+            services.AddTransient<IValidator<SignInDTO>, SignInValidator>();
+            services.AddTransient<IValidator<EditUserDTO>, EditUserValidator>();
+            services.AddTransient<IValidator<CategoryAddDTO>, CategoryAddValidator>();
+            services.AddTransient<IValidator<CategoryEditDTO>, CategoryEditValidator>();
+            services.AddTransient<IValidator<ContentsAddDTO>, ContentsAddValidator>();
+            services.AddTransient<IValidator<ContentsEditDTO>, ContentsEditValidator>();
+            services.AddTransient<IValidator<PostAddDTO>, PostAddValidator>();
+            services.AddTransient<IValidator<PostEditDTO>, PostEditValidator>();
+            services.AddTransient<IValidator<TagAddOrEditDTO>, TagAddValidator>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

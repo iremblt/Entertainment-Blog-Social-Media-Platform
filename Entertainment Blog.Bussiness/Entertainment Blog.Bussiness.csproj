@@ -8,6 +8,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
+    <PackageReference Include="FluentValidation" Version="10.3.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
   </ItemGroup>
 
@@ -15,10 +16,6 @@
     <ProjectReference Include="..\Entertainment Blog.DataAccess\Entertainment Blog.DataAccess.csproj" />
     <ProjectReference Include="..\Entertainment Blog.DTO\Entertainment Blog.DTO.csproj" />
     <ProjectReference Include="..\Entertainment Blog.Entity\Entertainment Blog.Entity.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Concrete\FluentValidation\" />
   </ItemGroup>
 
 </Project>

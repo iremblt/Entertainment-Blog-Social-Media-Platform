@@ -1,0 +1,38 @@
+﻿@model IEnumerable<UserDetailsDTO>
+@{
+    ViewData["Title"] = "All Users";
+}
+<h1>All Users</h1>
+@if(Model.Any())
+{
+    <a class="btn btn-primary mb-3" asp-action="Register" asp-controller="Account">Add User</a>
+    @foreach (var user in Model)
+   {
+       <div class="card mb-3">
+           <div class="card-header">
+               User Id: @user.Id
+           </div>
+           <div class="card-body">
+               <h5 class="card-title">@user.UserName</h5>
+           </div>
+           <div class="card-footer">
+               <a class="btn btn-primary" asp-action="EditUser" asp-controller="Account" asp-route-id="@user.Id">Edit</a>
+               <a class="btn btn-alert-danger" asp-action="RemoveUser" asp-controller="Account" asp-route-id="@user.Id">Remove</a>
+           </div>
+       </div>
+   }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No users created yet
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">
+                Create A User
+            </h5>
+            <a class="btn btn-primary mb-3" asp-action="Register" asp-controller="Account">Add User</a>
+        </div>
+    </div>
+}

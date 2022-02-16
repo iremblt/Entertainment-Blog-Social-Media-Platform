@@ -19,10 +19,9 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             _signInManager = signInManager;
             _mapper = mapper;
         }
-        // Error larnı ekle
         public async Task SignIn(SignInDTO signIn)
         {
-            var user=new ApplicationUser();
+            var user = new ApplicationUser();
             if (signIn.EmailOrUserName.Contains("@"))
             {
                 user = await _userManager.FindByEmailAsync(signIn.EmailOrUserName);
@@ -31,48 +30,40 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             {
                 user = await _userManager.FindByNameAsync(signIn.EmailOrUserName);
             }
-            if(user != null) 
+            if (user != null)
             {
-                if (await _userManager.CheckPasswordAsync(user, signIn.Password)==true) 
+                if (await _userManager.CheckPasswordAsync(user, signIn.Password) == true)
                 {
-                    if (signIn.ConfirmPassword == signIn.Password) 
+                    if (signIn.ConfirmPassword == signIn.Password)
                     {
-                        await _signInManager.PasswordSignInAsync(user,signIn.Password,false,false);
+                        await _signInManager.PasswordSignInAsync(user, signIn.Password, false, false);
                     }
                 }
             }
-            //var userFindEmail = await _userManager.FindByEmailAsync(signIn.Email);
-            //var userFindName = await _userManager.FindByNameAsync(signIn.UserName);
-            //if (userFindEmail != null && userFindName != null)
-            //{
-            //    if (userFindEmail == userFindName)
-            //    {
-            //        await _signInManager.SignOutAsync();
-            //        if (await _userManager.CheckPasswordAsync(userFindEmail, signIn.Password) == true)
-            //        {
-            //            if (signIn.Password == signIn.ConfirmPassword)
-            //            {
-            //                await _signInManager.PasswordSignInAsync(userFindEmail,signIn.Password,true,false);
-            //            }
-            //        }
-            //    }
-            //}
         }
         public async Task Register(RegisterDTO register) 
         {
             var users=await _userManager.FindByEmailAsync(register.Email);
             var userss=await _userManager.FindByNameAsync(register.UserName);
-            //if(users != null && userss != null) 
-            //{
-            //    var user=_mapper.Map<RegisterDTO,ApplicationUser>(register);
-            //    //user.Id = Guid.NewGuid().ToString();
-            //    await _userManager.CreateAsync(user,register.Password);
-            //}
             if (users == null && userss == null)
             {
                 var user = _mapper.Map<RegisterDTO, ApplicationUser>(register);
                 user.Id = Guid.NewGuid().ToString();
+                user.ConfirmPassword = register.Password;
                 await _userManager.CreateAsync(user, register.Password);
+            }
+        }
+
+        public UserDetailsDTO ProfileDetails(ApplicationUser user) 
+        {
+            if(user == null)
+            {
+                return null;
+            }
+            else
+            {
+                var details = _mapper.Map<ApplicationUser, UserDetailsDTO>(user);
+                return details;
             }
         }
     }

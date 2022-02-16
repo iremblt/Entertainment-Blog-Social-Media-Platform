@@ -1,0 +1,103 @@
+﻿@model UserDetailsDTO
+@{
+    ViewData["Title"] = "Profile";
+}
+<div class="row">    
+    <div class="col">
+        <hr />
+    </div>
+</div>
+<div class="row">    
+    <div class="col-md-3"> 
+        <div class="panel">
+          <div class="card-img">
+                  <img src="https://bootdey.com/img/Content/avatar/avatar3.png" width="315" height="315" alt="@Model.UserName">
+          </div>
+          <div class="card-body">
+          <hr />
+          <div class="card-text">
+              <p class="text">@Model.Name @Model.Surname</p>
+              <div class="card-subtitle">
+                <p class="text">@Model.UserName</p>
+              </div>
+          </div>
+          </div>
+          <ul class="nav nav-tabs">
+              <li class="nav-item"><a class="nav-link active fa fa-user" asp-controller="Account" asp-action="Profile"> Profile </a></li>
+              <li class="nav-item"><a class="nav-link fa fa-calendar" asp-controller="Account" asp-action="UserActivities"> Recent Activity </a></li>
+              <li class="nav-item"><a class="nav-link fa fa-edit" asp-controller="Account" asp-action="EditProfile"> Edit profile </a></li>
+          </ul>
+      </div>
+  </div>
+  <div class="col-md-9">
+      <div class="card">
+          <div class="card-header">
+              <h3>About Me</h3>
+                <div class="card-body">    
+                    <div class="card-text">@Model.About </div>
+                    <div class="card-group-2">
+                        <div class="card-text">
+                            <p class="text"><span> First Name </span>: @Model.Name </p>
+                        </div>
+                        <div class="card-text">
+                            <p class="text"><span> Last Name </span>: @Model.Surname </p>
+                        </div>
+                     </div>
+                     <div class="card-group-2">
+                        <div class="card-text">
+                            <p class="text"><span> Country </span>: @Model.Country </p>
+                        </div>
+                        <div class="card-text">
+                            <p class="text"><span> Address </span>: @Model.Address </p>
+                        </div>
+                      </div>
+                      <div class="card-group-3">
+                        <div class="card-text">
+                            <time datetime= "@Model.DateOfBirth"><span > Birthday </span>: @Model.DateOfBirth.Date </time>
+                        </div>
+                        <div class="card-text">
+                            <p class="text"><span> Job </span>: @Model.Job </p>
+                        </div>
+                        <div class="card-text">
+                            <p class="text"><span> Email </span>: @Model.Email </p>
+                        </div>
+                        </div>
+                     <div class="card-group-2">
+                        <div class="card-text">
+                            <p class="text"><span> Phone Number </span>: @Model.PhoneNumber </p>
+                        </div>
+                        <div class="card-text">
+                            <p class="text"><span> Gender </span>: @Model.Gender </p>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+      <div>
+          <div class="mainheading">
+              <h3>My Posts</h3>
+          </div>
+
+          @foreach (var post in Model.Posts)
+         {
+            
+         }
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-header">
+                        <h3>My Posts</h3>
+                     </div>
+                      <div class="card-body">
+                          <div class="card-text">
+                              <h4>fdsfs</h4>
+                              <p>Started : 15 July</p>
+                              <p>Deadline : 15 August</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
