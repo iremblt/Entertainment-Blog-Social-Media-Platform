@@ -56,7 +56,7 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
         { 
             return View(); 
         }
-        [HttpPost]
+        [HttpPost,ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterDTO register)
         {
             if (ModelState.IsValid)
@@ -68,9 +68,32 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
         }
         public async Task<IActionResult> Profile() 
         {
-            var user=await _userManager.GetUserAsync(HttpContext.User);
-            var detail=_userService.ProfileDetails(user);
-            return View(detail); 
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var detail = await _userService.UserProfileAsync(user);
+            return View(detail);
+            //var user=await _userManager.GetUserAsync(HttpContext.User);
+            //var detail=_userService.ProfileDetails(user);
+            //return View(detail); 
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditProfile(string id)
+        {
+            var user = await _userService.FindUserByIdAsync(id);
+            if(user == null)
+            {
+                return View("Error");
+            }
+            return View(user);
+        }
+        [HttpPost,ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditProfile(EditUserDTO editUser)
+        {
+            if (ModelState.IsValid)
+            {
+                await _userService.EditUserAsync(editUser);
+                return RedirectToAction("Profile");
+            }
+            return View(editUser);
         }
     }
 }

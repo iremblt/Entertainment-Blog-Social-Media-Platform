@@ -3,7 +3,10 @@ using Entertainment_Blog.DTO.DTOs.ContentDTO;
 using Entertainment_Blog.DTO.DTOs.PostCreateEditDTOs;
 using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.DTO.DTOs.TagDTO;
+using Entertainment_Blog.DTO.DTOs.UserDTO;
+using Entertainment_Blog.Entity.Concrete;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -16,12 +19,14 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
         private readonly ICategoryService _categoryService;
         private readonly ITagService _tagService;
         private readonly IContentsService _contentsService;
-        public PostController(IPostService postService,ICategoryService categoryService,ITagService tagService,IContentsService contentsService)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public PostController(IPostService postService,ICategoryService categoryService,ITagService tagService,IContentsService contentsService, UserManager<ApplicationUser> userManager)
         {
             _postService = postService;
             _categoryService = categoryService;
             _tagService = tagService;
             _contentsService = contentsService;
+            _userManager = userManager;
         }       
        // [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
@@ -44,6 +49,9 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+                post.PostAdd.User = user;
+                post.PostAdd.UserId = user.Id;
                 var added= await _postService.AddPostAsync(post.PostAdd);
                 return RedirectToAction("CreateContent", "Post",new {postid=added.Id});
             }
@@ -77,7 +85,6 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
             return View(contents);
         }
         [HttpPost, ValidateAntiForgeryToken]
-        //Eğer tag'in adı daha önce bulunuyorsa ekleme! Service ekledim Fluent Api olarak eklersin ileride
         public async Task<IActionResult> CreateTag(TagAddOrEditDTO tag)
         {
             if (ModelState.IsValid)

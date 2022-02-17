@@ -12,11 +12,12 @@ namespace Entertainment_Blog.DTO.DTOs.PostDTO
         public string Title { get; set; }
         public string Summary { get; set; }
         public List<ContentsListDTO> Contents { get; set; }
-        //public List<ImagesListDTO> Image { get; set; }
         public string Thumbnail { get; set; }
         public DateTime PublishDate { get; set; }
         public bool IsPublished { get; set; }
         public ICollection<PostCategoryListDTO> PostCategories { get; set; }
         public ICollection<PostTagListDTO> PostTags { get; set; }
+        public string UserId { get; set; }
+
     }
 }

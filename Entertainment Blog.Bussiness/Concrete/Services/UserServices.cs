@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entertainment_Blog.Bussiness.Abstract;
+using Entertainment_Blog.DataAccess.Abstract;
 using Entertainment_Blog.DTO.DTOs.UserDTO;
 using Entertainment_Blog.Entity.Concrete;
 using Microsoft.AspNetCore.Identity;
@@ -10,14 +11,16 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
 {
     public class UserServices : IUserService
     {
+        private readonly IUserRepository _userRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IMapper _mapper;
-        public UserServices(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser>signInManager,IMapper mapper)
+        public UserServices(UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser>signInManager,IMapper mapper, IUserRepository userRepository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
         public async Task SignIn(SignInDTO signIn)
         {
@@ -54,16 +57,58 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             }
         }
 
-        public UserDetailsDTO ProfileDetails(ApplicationUser user) 
+        //public UserDetailsDTO ProfileDetails(ApplicationUser user) 
+        //{
+        //    if(user == null)
+        //    {
+        //        return null;
+        //    }
+        //    else
+        //    {
+        //        var details = _mapper.Map<ApplicationUser, UserDetailsDTO>(user);
+        //        var posts = _postService.GetPostsIncludeCategoriesAndTags();
+        //        foreach (var userId in posts)
+        //        {
+        //            if (user.Id == userId.UserId)
+        //            {
+        //                details.Posts.Add(userId);
+        //            }
+        //        }
+        //        return details;
+        //    }
+        //}
+        public async Task<UserDetailsDTO> UserProfileAsync(ApplicationUser user)
         {
+            if (user == null)
+            {
+                return null;
+            }
+            else
+            {
+                var detail =await _userRepository.UserDetailsAsync(user);
+                var map = _mapper.Map<ApplicationUser, UserDetailsDTO>(detail);
+                return map;
+            }
+        }
+        public async Task EditUserAsync(EditUserDTO user)
+        {
+            var edit = _mapper.Map<EditUserDTO, ApplicationUser>(user,await _userManager.FindByIdAsync(user.Id));
+            await _userManager.ChangePasswordAsync(edit,edit.ConfirmPassword,user.Password);
+            await _userManager.UpdateAsync(edit);
+            await _userRepository.SaveAsync();
+        }
+        public async Task<EditUserDTO> FindUserByIdAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
             if(user == null)
             {
                 return null;
             }
             else
             {
-                var details = _mapper.Map<ApplicationUser, UserDetailsDTO>(user);
-                return details;
+                var userposts = await _userRepository.UserDetailsAsync(user);
+                var edituser=_mapper.Map<ApplicationUser, EditUserDTO>(userposts);
+                return edituser;
             }
         }
     }

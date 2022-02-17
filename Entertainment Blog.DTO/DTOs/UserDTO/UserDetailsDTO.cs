@@ -1,4 +1,5 @@
-﻿using Entertainment_Blog.Entity.Concrete;
+﻿using Entertainment_Blog.DTO.DTOs.PostDTO;
+using Entertainment_Blog.Entity.Concrete;
 using System;
 using System.Collections.Generic;
 
@@ -203,7 +204,8 @@ namespace Entertainment_Blog.DTO.DTOs.UserDTO
             Zambia,
             Zimbabwe,
         }
-        public List<Post> Posts { get; set; }
+        public List<PostListDTO> Posts { get; set; }
         public List<Comment> Comments { get; set; }
+
     }
 }

@@ -4,6 +4,7 @@ using Entertainment_Blog.DataAccess.Abstract;
 using Entertainment_Blog.DTO.DTOs.PostCreateEditDTOs;
 using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.DTO.DTOs.SearchDTO;
+using Entertainment_Blog.DTO.DTOs.UserDTO;
 using Entertainment_Blog.Entity.Concrete;
 using Entertainment_Blog.Entity.Enums;
 using System.Collections.Generic;
@@ -23,8 +24,7 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             postRepository = _postRepository;
             categoryService = _categoryService;
             tagService = _tagService;
-            mapper = _mapper;
-        }
+            mapper = _mapper;        }   
         public async Task<Post> AddPostAsync(PostAddDTO post)
         {
             var adding = mapper.Map<PostAddDTO, Post>(post);
@@ -47,6 +47,7 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             var updating = mapper.Map<PostEditDTO, Post>(post, postRepository.GetPostByIdWithCategoriesAndTags(Types.PostCategories | Types.PostTags, post.Id));
             updating.PublishDate = beforeupdating.PublishDate;
             updating.Contents = beforeupdating.Contents;
+            updating.UserId= beforeupdating.UserId;
             await postRepository.AddCategoryForPost(updating, post.CategoryIds);
             var editted = await postRepository.AddTagForPost(updating, post.TagIds);
             await postRepository.UpdateAsync(editted);

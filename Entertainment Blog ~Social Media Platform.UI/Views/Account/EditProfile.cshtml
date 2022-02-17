@@ -1,0 +1,121 @@
+﻿@model EditUserDTO
+@{
+    ViewData["Title"] = "EditProfile";
+}
+<form asp-controller="Account" asp-action="EditProfile" method="post">
+    <input type="hidden" asp-for="Id" />
+    <br />@Html.AntiForgeryToken()
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label asp-for="Name"></label>
+                        <input class="form-control" placeholder="Name" asp-for="Name" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Surname"></label>
+                        <input class="form-control" placeholder="Surname" asp-for="Surname"/>
+                        <span asp-validation-for="Surname" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="About"></label>
+                        <textarea class="form-control" placeholder="About" asp-for="About"></textarea>
+                        <span asp-validation-for="About" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Job"></label>
+                        <input class="form-control" placeholder="Job"  asp-for="Job"/>
+                        <span asp-validation-for="Job" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PhoneNumber"></label>
+                        <input class="form-control" placeholder="Phone Number" asp-for="PhoneNumber" type="number"/>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="card-header">
+                        User Details
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        <input class="form-control" placeholder="Email" asp-for="Email"/>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>                    
+                    <div class="form-group">
+                        <label asp-for="UserName"></label>                        
+                        <input class="form-control" placeholder="User name" asp-for="UserName"/>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Password"></label>
+                        <input class="form-control" placeholder="Password" asp-for="Password" type="password"/>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    Posts
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        @if(Model.Posts==null)
+                        {
+                            <div class="form-control">
+                                <p>You dont have any posts</p>
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var posts in Model.Posts)
+                        {
+                            <div class="form-control">
+                                <p>@posts.Title</p>
+                                <br/>
+                                <a asp-controller=Post asp-action=EditPost asp-route-id=@posts.Id><p>Edit</p></a>
+                                <a asp-controller=Post asp-action=DeletePost asp-route-id=@posts.Id><p>Delete</p></a>
+                                <a asp-controller=Post asp-action=CreatePost><p>Add Post</p></a>
+                            </div>
+                            }
+                        }
+                        <span asp-validation-for="Posts" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Picture"></label>
+                        <input class="form-control" placeholder="Picture" asp-for="Picture" />
+                        <span asp-validation-for="Picture" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Gender"></label>
+                            <select asp-for="Gender" class="form-control" asp-items="@Html.GetEnumSelectList<RegisterDTO.GenderTypes>()">
+                                <option selected="selected" value="@Model.Gender"></option>
+                            </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Country"></label>
+                        <select asp-for="Country" class="form-control" asp-items="@Html.GetEnumSelectList<RegisterDTO.CountryTypes>()">
+                            <option selected="selected" value="@Model.Country"></option>
+                        </select>
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address"></label>
+                        <input class="form-control" asp-for="Address">
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="DateOfBirth">Date of Birth</label>
+                        <input class="form-control" asp-for="DateOfBirth" type="date"/>
+                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block mt-4"> Save </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

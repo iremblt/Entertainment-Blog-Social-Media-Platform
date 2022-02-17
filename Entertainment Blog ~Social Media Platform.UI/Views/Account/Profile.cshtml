@@ -11,7 +11,7 @@
     <div class="col-md-3"> 
         <div class="panel">
           <div class="card-img">
-                  <img src="https://bootdey.com/img/Content/avatar/avatar3.png" width="315" height="315" alt="@Model.UserName">
+                  <img src="@Model.Picture" width="315" height="315" alt="@Model.UserName">
           </div>
           <div class="card-body">
           <hr />
@@ -25,7 +25,7 @@
           <ul class="nav nav-tabs">
               <li class="nav-item"><a class="nav-link active fa fa-user" asp-controller="Account" asp-action="Profile"> Profile </a></li>
               <li class="nav-item"><a class="nav-link fa fa-calendar" asp-controller="Account" asp-action="UserActivities"> Recent Activity </a></li>
-              <li class="nav-item"><a class="nav-link fa fa-edit" asp-controller="Account" asp-action="EditProfile"> Edit profile </a></li>
+              <li class="nav-item"><a class="nav-link fa fa-edit" asp-controller="Account" asp-action="EditProfile" asp-route-id="@Model.Id"> Edit profile </a></li>
           </ul>
       </div>
   </div>
@@ -74,14 +74,6 @@
             </div>
         </div>
       <div>
-          <div class="mainheading">
-              <h3>My Posts</h3>
-          </div>
-
-          @foreach (var post in Model.Posts)
-         {
-            
-         }
           <div class="row">
               <div class="col-md-6">
                   <div class="card">
@@ -90,10 +82,25 @@
                      </div>
                       <div class="card-body">
                           <div class="card-text">
-                              <h4>fdsfs</h4>
-                              <p>Started : 15 July</p>
-                              <p>Deadline : 15 August</p>
-                          </div>
+                                @if (Model.Posts.Count > 0)
+                                {
+                                    @for(int i = 0; i < Model.Posts.Count; i++)
+                                    {
+                                        <a asp-controller=Post asp-action=Details asp-route-id=@Model.Posts[i].Id><h4>@Model.Posts[i].Title</h4></a>
+                                        <img class="featured-image img-fluid" src="~/img/@Model.Posts[i].Thumbnail" alt=@Model.Posts[i].Title />
+                                        <p>@Model.Posts[i].Summary</p>
+                                        <p>Publish Date : @Model.Posts[i].PublishDate</p>
+                                        <a asp-controller=Post asp-action=EditPost asp-route-id=@Model.Posts[i].Id><p>Edit</p></a>
+                                        <a asp-controller=Post asp-action=DeletePost asp-route-id=@Model.Posts[i].Id><p>Delete</p></a>
+                                        <a asp-controller=Post asp-action=CreatePost><p>Add</p></a>
+                                    }
+                                }
+                                else
+                                {
+                                    <h4>@Model.UserName hasn't posts.</h4>
+                                    <a asp-controller=Post asp-action=CreatePost><p>Add</p></a>
+                                }
+                            </div>
                       </div>
                   </div>
               </div>

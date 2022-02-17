@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Entertainment_Blog.DTO.DTOs.PostDTO;
+using Entertainment_Blog.Entity.Concrete;
+using System;
+using System.Collections.Generic;
 
 namespace Entertainment_Blog.DTO.DTOs.UserDTO
 {
@@ -15,10 +18,12 @@ namespace Entertainment_Blog.DTO.DTOs.UserDTO
         public string Picture { get; set; }
         public DateTime DateOfBirth { get; set; }
         public GenderTypes Gender { get; set; }
-        public string Country { get; set; }
-        public CountryTypes Address { get; set; }
+        public CountryTypes Country { get; set; }
+        public string Address { get; set; }
         public string Job { get; set; }
         public string About { get; set; }
+        public List<PostListDTO> Posts { get; set; }
+        public List<Comment> Comments { get; set; }
         public enum GenderTypes
         {
             Female,

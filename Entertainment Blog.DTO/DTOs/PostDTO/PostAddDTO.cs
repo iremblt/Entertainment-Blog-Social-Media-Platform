@@ -1,6 +1,7 @@
 ﻿using Entertainment_Blog.DTO.DTOs.ContentDTO;
 using Entertainment_Blog.DTO.DTOs.PostCategoryDTO;
 using Entertainment_Blog.DTO.DTOs.PostTagDTO;
+using Entertainment_Blog.Entity.Concrete;
 using System;
 using System.Collections.Generic;
 
@@ -18,5 +19,7 @@ namespace Entertainment_Blog.DTO.DTOs.PostDTO
         public ICollection<PostTagListDTO> PostTags { get; set; }
         public List<int> CategoryIds { get; set; }
         public List<int> TagIds { get; set; }
+        public ApplicationUser User { get; set; }
+        public string UserId { get; set; }
     }
 }

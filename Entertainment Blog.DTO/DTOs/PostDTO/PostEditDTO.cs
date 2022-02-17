@@ -19,5 +19,7 @@ namespace Entertainment_Blog.DTO.DTOs.PostDTO
         public ICollection<PostTagListDTO> PostTags { get; set; }
         public List<int> CategoryIds { get; set; }
         public List<int> TagIds { get; set; }
+        public UserDTO.EditUserDTO User { get; set; }
+        public string UserId { get; set; }
     }
 }
