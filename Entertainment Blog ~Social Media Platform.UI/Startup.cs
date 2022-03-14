@@ -24,6 +24,8 @@ using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.Bussiness.Concrete.FluentValidation.PostValidation;
 using Entertainment_Blog.Bussiness.Concrete.FluentValidation.TagValidation;
 using Entertainment_Blog.DTO.DTOs.TagDTO;
+using Entertainment_Blog.DTO.DTOs.CommentDTO;
+using Entertainment_Blog.Bussiness.Concrete.FluentValidation.CommentValidation;
 
 namespace Entertainment_Blog__Social_Media_Platform.UI
 {
@@ -53,6 +55,8 @@ namespace Entertainment_Blog__Social_Media_Platform.UI
             services.AddScoped<IPostTagService, PostTagServices>();
             services.AddScoped<IContentsService, ContentsServices>();
             services.AddScoped<IUserService, UserServices>();
+            services.AddScoped<ICommentRepository, EfCommentRepository>();
+            services.AddScoped<ICommentService, CommentServices>();
             services.AddIdentity<ApplicationUser, IdentityRole>(opt =>
             {
                 opt.Password.RequireNonAlphanumeric = false;
@@ -74,6 +78,8 @@ namespace Entertainment_Blog__Social_Media_Platform.UI
             services.AddTransient<IValidator<PostAddDTO>, PostAddValidator>();
             services.AddTransient<IValidator<PostEditDTO>, PostEditValidator>();
             services.AddTransient<IValidator<TagAddOrEditDTO>, TagAddValidator>();
+            services.AddTransient<IValidator<CommentAddDTO>, CommentAddValidator>();
+            services.AddTransient<IValidator<CommentEditDTO>, CommentEditValidator>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

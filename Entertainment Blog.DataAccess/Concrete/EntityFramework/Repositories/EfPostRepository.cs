@@ -2,6 +2,7 @@
 using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Contexts;
 using Entertainment_Blog.Entity.Concrete;
 using Entertainment_Blog.Entity.Enums;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,20 +15,22 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
     {
         private readonly ICategoryRepository categoryRepository;
         private readonly ITagRepository tagRepository;
-        public EfPostRepository(EntertainmentBlogContext context, ICategoryRepository _categoryRepository, ITagRepository _tagRepository) : base(context)
+        private readonly UserManager<ApplicationUser> userManager;
+        public EfPostRepository(EntertainmentBlogContext context, ICategoryRepository _categoryRepository, ITagRepository _tagRepository,UserManager<ApplicationUser> _userManager) : base(context)
         {
             categoryRepository = _categoryRepository;
             tagRepository = _tagRepository;
+            userManager = _userManager;
         }
         private List<Post> IncludeTypes(Types types)
         {
             if (types.HasFlag(Types.PostCategories))
             {
-                context.Posts.Include(i => i.Contents).Include(i => i.PostCategories).ThenInclude(p => p.Category).Load();
+                context.Posts.Include(i => i.Contents).Include(i => i.Comments).Include(i => i.PostCategories).ThenInclude(p => p.Category).Load();
             }
             if (types.HasFlag(Types.PostTags))
             {
-                context.Posts.Include(i => i.Contents).Include(i => i.PostTags).ThenInclude(t => t.Tag).Load();
+                context.Posts.Include(i => i.Contents).Include(i=>i.Comments).Include(i => i.PostTags).ThenInclude(t => t.Tag).Load();
             }
             return context.Posts.ToList();
         }
@@ -44,15 +47,34 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
                 return result;
             }
 
+        }   
+        public async Task<List<Post>> PostsWithUsers()
+        {
+            var posts = await context.Posts.ToListAsync();
+            foreach (var user in posts)
+            {
+                if (user.UserId != null)
+                {
+                    var finduser = await userManager.FindByIdAsync(user.UserId);
+                    user.User = finduser;
+                }
+            }
+            return posts;
         }
-        public List<Post> GetPostsIncludeCategoriesAndTags(Types types)
+        public List<Post> GetPostsIncludeCategoriesAndTagsAsync(Types types)
         {
             var lists = IncludeTypes(types).ToList();
             return lists;
-        }
-        public IQueryable<Post> GetPostsOrderByDate()
+        } 
+        //public async Task<Post> GetPostIdIncludeTags(int id)
+        //{
+        //    var post= await context.Posts.Include(i => i.Contents).Include(i => i.PostTags).ThenInclude(t => t.Tag).FirstOrDefaultAsync(i=>i.Id==id);
+        //    return post;
+        //}
+        public async Task<IQueryable<Post>> GetPostsOrderByDate()
         {
-            return context.Posts.OrderByDescending(d => d.PublishDate).AsQueryable();
+            var posts= await PostsWithUsers();
+            return posts.OrderByDescending(d=>d.PublishDate).AsQueryable();
         }
         public IQueryable<Post> SearchPost(String text)
         {
@@ -101,6 +123,13 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
         public Post GetPostByIdWithContents(int id)
         {
             var result = context.Posts.Include(p => p.Contents)
+                .AsNoTracking() // Id' i alınca oyle olurdu bunu yazmamım amacı değişklik olsun ya da olmasın kaydetmiyor.Sadece okuyor.
+                .FirstOrDefault(i => i.Id == id);
+            return result;
+        }        
+        public Post GetPostByIdWithEvertyhing(int id)
+        {
+            var result= context.Posts.Include(i => i.Contents).Include(i => i.Comments).Include(i => i.PostTags).ThenInclude(t => t.Tag)
                 .AsNoTracking() // Id' i alınca oyle olurdu bunu yazmamım amacı değişklik olsun ya da olmasın kaydetmiyor.Sadece okuyor.
                 .FirstOrDefault(i => i.Id == id);
             return result;

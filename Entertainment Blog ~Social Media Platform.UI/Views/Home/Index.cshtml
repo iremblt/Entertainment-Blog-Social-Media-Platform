@@ -21,10 +21,19 @@
                                 <p class="card-text text-muted">@post.Summary</p>
                                 <div class="metafooter">
                                     <div class="wrapfooter small d-flex align-items-center">
-                                        <span class="author-meta">
-                                            By  <span class="post-name"> Sal, </span>
+                                        @if(post.User!=null){
+                                            <span class="author-meta">
+                                             By  <span class="post-name"> @post.User.UserName </span>
+                                             on <span class="post-date">@post.PublishDate</span> 
+                                            </span>
+                                            }
+                                            else
+                                            {
+                                            <span class="author-meta">
+                                            By  <span class="post-name"> Anomin </span>
                                             on <span class="post-date">@post.PublishDate</span>
-                                        </span>
+                                            </span>
+                                            }
                                         <div class="clearfix"></div>
                                     </div>
                                 </div>

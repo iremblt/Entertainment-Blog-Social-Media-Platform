@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entertainment_Blog.DTO.DTOs.CategoryDTO;
+using Entertainment_Blog.DTO.DTOs.CommentDTO;
 using Entertainment_Blog.DTO.DTOs.ContentDTO;
 using Entertainment_Blog.DTO.DTOs.PostCategoryDTO;
 using Entertainment_Blog.DTO.DTOs.PostDTO;
@@ -37,6 +38,10 @@ namespace Entertainment_Blog.Bussiness.Concrete.Mapping
             CreateMap<ApplicationUser,SignInDTO>().ReverseMap();
             CreateMap<ApplicationUser,EditUserDTO>().ReverseMap();
             CreateMap<ApplicationUser,UserDetailsDTO>().ReverseMap();
+            CreateMap<Comment,CommentListDTO>().ReverseMap();
+            CreateMap<Comment,CommentAddDTO>().ReverseMap();
+            CreateMap<Comment,CommentDeleteDTO>().ReverseMap();
+            CreateMap<Comment,CommentEditDTO>().ReverseMap();
         }
     }
 }

@@ -8,10 +8,11 @@ namespace Entertainment_Blog.Bussiness.Abstract
     {
         public Task SignIn(SignInDTO signIn);
         public Task Register(RegisterDTO register);
-        //public UserDetailsDTO ProfileDetails(ApplicationUser user);
         public Task EditUserAsync(EditUserDTO user);
         public Task<UserDetailsDTO> UserProfileAsync(ApplicationUser user);
         public Task<EditUserDTO> FindUserByIdAsync(string id);
+        public Task<EditUserDTO> UserIdWithAsNoTracking(string id);
+        public Task<UserDetailsDTO> FindUserById(string id);
 
     }
 }

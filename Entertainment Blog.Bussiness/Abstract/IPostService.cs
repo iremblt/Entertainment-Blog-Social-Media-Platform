@@ -11,7 +11,7 @@ namespace Entertainment_Blog.Bussiness.Abstract
     public interface IPostService
     {
         Task<List<PostListDTO>> GetPostsAsync();
-        List<PostListDTO> GetPostsOrderByDateTime();
+        Task<List<PostListDTO>> GetPostsOrderByDateTime();
         List<PostListDTO> GetPostsIncludeCategoriesAndTags();
         List<PostListDTO> GetPostsIncludeCategories();
         List<PostListDTO> GetPostsIncludeTags();
@@ -26,5 +26,6 @@ namespace Entertainment_Blog.Bussiness.Abstract
         IQueryable<PostListDTO> SearchPost(SearchDTO search);
         Task<EdittingPostTagsCategoryDTO> MappingToEdittingPostTagsCategoryDTO(PostEditDTO postEdits);
         Task<List<PostListDTO>> GetPostByCategoryIdAsync(int id);
+        PostListDTO GetPostByIdWithEvertyhing(int id);
     }
 }

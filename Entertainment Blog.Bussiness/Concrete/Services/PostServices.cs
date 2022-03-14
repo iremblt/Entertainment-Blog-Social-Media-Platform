@@ -4,7 +4,6 @@ using Entertainment_Blog.DataAccess.Abstract;
 using Entertainment_Blog.DTO.DTOs.PostCreateEditDTOs;
 using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.DTO.DTOs.SearchDTO;
-using Entertainment_Blog.DTO.DTOs.UserDTO;
 using Entertainment_Blog.Entity.Concrete;
 using Entertainment_Blog.Entity.Enums;
 using System.Collections.Generic;
@@ -18,13 +17,16 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
         private readonly IPostRepository postRepository;
         private readonly ICategoryService categoryService;
         private readonly ITagService tagService;
+        private readonly IUserService userService;
         private IMapper mapper;
-        public PostServices(IPostRepository _postRepository, IMapper _mapper, ICategoryService _categoryService, ITagService _tagService)
+        public PostServices(IPostRepository _postRepository, IMapper _mapper, ICategoryService _categoryService, ITagService _tagService,IUserService _userService)
         {
             postRepository = _postRepository;
             categoryService = _categoryService;
             tagService = _tagService;
-            mapper = _mapper;        }   
+            mapper = _mapper;
+            userService = _userService;
+        }   
         public async Task<Post> AddPostAsync(PostAddDTO post)
         {
             var adding = mapper.Map<PostAddDTO, Post>(post);
@@ -82,41 +84,75 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
             var lists = await postRepository.GetAllAsync();
             return mapper.Map<List<PostListDTO>>(lists);
         }
-        public List<PostListDTO> GetPostsOrderByDateTime()
+        public async Task<List<PostListDTO>> GetPostsOrderByDateTime()
         {
-            var lists = postRepository.GetPostsOrderByDate();
+            var lists = await postRepository.GetPostsOrderByDate();
             return mapper.Map<List<PostListDTO>>(lists);
         }
 
         public List<PostListDTO> GetPostsIncludeCategories()
         {
-            var lists = postRepository.GetPostsIncludeCategoriesAndTags(Types.PostCategories);
+            var lists = postRepository.GetPostsIncludeCategoriesAndTagsAsync(Types.PostCategories);
             return mapper.Map<List<PostListDTO>>(lists);
         }
 
         public List<PostListDTO> GetPostsIncludeCategoriesAndTags()
         {
-            var lists = postRepository.GetPostsIncludeCategoriesAndTags(Types.PostCategories | Types.PostTags);
+            var lists = postRepository.GetPostsIncludeCategoriesAndTagsAsync(Types.PostCategories | Types.PostTags);
             return mapper.Map<List<PostListDTO>>(lists);
         }
 
         public List<PostListDTO> GetPostsIncludeTags()
         {
-            var lists = postRepository.GetPostsIncludeCategoriesAndTags(Types.PostTags);
+            var lists = postRepository.GetPostsIncludeCategoriesAndTagsAsync(Types.PostTags);
             return mapper.Map<List<PostListDTO>>(lists);
+        }
+        public PostListDTO GetPostByIdWithEvertyhing(int id)
+        {
+            var post= postRepository.GetPostByIdWithEvertyhing(id);
+            return mapper.Map<PostListDTO>(post);
         }
         public async Task<PostNextAndLastDTO> GetNextAndLastPostOfThePostAsync(int id)
         {
             var detail = GetPostByIdIncludeTags(id);
-            int lastId = id - 1;
-            int nextId = id + 1;
-            var postModel = new PostNextAndLastDTO
+            if (detail != null)
             {
-                Post = detail,
-                PostNext = await GetPostByIdAsync(nextId),
-                PostLast = await GetPostByIdAsync(lastId)
-            };
-            return postModel;
+                if (detail.UserId != null)
+                {
+                    var user = await userService.FindUserByIdAsync(detail.UserId);
+                    if (user != null)
+                    {
+                        detail.User = user;
+                    }
+                }
+                if (detail.Comments.Any())
+                {
+                    foreach (var comment in detail.Comments)
+                    {
+                        var user = await userService.FindUserById(comment.UserId);
+                        comment.User = user;
+                    }
+                }
+                int lastId = id - 1;
+                int nextId = id + 1;
+                var postModel = new PostNextAndLastDTO
+                {
+                    Post = detail,
+                    PostNext = await GetPostByIdAsync(nextId),
+                    PostLast = await GetPostByIdAsync(lastId)
+                };
+                return postModel;
+            }
+            else
+            {
+                var postModel = new PostNextAndLastDTO
+                {
+                    Post = detail,
+                    PostNext = await GetPostByIdAsync(0),
+                    PostLast = await GetPostByIdAsync(0)
+                };
+                return postModel;
+            }
         }
         public IQueryable<PostListDTO> SearchPost(SearchDTO search)
         {

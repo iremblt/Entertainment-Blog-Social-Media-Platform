@@ -56,27 +56,6 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
                 await _userManager.CreateAsync(user, register.Password);
             }
         }
-
-        //public UserDetailsDTO ProfileDetails(ApplicationUser user) 
-        //{
-        //    if(user == null)
-        //    {
-        //        return null;
-        //    }
-        //    else
-        //    {
-        //        var details = _mapper.Map<ApplicationUser, UserDetailsDTO>(user);
-        //        var posts = _postService.GetPostsIncludeCategoriesAndTags();
-        //        foreach (var userId in posts)
-        //        {
-        //            if (user.Id == userId.UserId)
-        //            {
-        //                details.Posts.Add(userId);
-        //            }
-        //        }
-        //        return details;
-        //    }
-        //}
         public async Task<UserDetailsDTO> UserProfileAsync(ApplicationUser user)
         {
             if (user == null)
@@ -110,6 +89,25 @@ namespace Entertainment_Blog.Bussiness.Concrete.Services
                 var edituser=_mapper.Map<ApplicationUser, EditUserDTO>(userposts);
                 return edituser;
             }
+        }     
+        public async Task<UserDetailsDTO> FindUserById(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if(user == null)
+            {
+                return null;
+            }
+            else
+            {
+                var userposts = await _userRepository.UserDetailsAsync(user);
+                var edituser=_mapper.Map<ApplicationUser, UserDetailsDTO>(userposts);
+                return edituser;
+            }
+        }
+        public async Task<EditUserDTO> UserIdWithAsNoTracking(string id)
+        {
+            var user = await _userRepository.UserIdWithAsNoTracking(id);
+            return _mapper.Map<EditUserDTO>(user);
         }
     }
 }

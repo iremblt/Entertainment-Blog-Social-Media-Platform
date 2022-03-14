@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 namespace Entertainment_Blog.DTO.DTOs.PostDTO
 {
+    //Application User'ı direk kullanmamna lazım !!!
     public class PostAddDTO
     {
         public string Title { get; set; }

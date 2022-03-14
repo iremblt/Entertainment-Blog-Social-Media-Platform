@@ -8,6 +8,7 @@ namespace Entertainment_Blog.DataAccess.Abstract
     {
         public Task<List<ApplicationUser>> UserListAsync();
         public Task<ApplicationUser> UserDetailsAsync(ApplicationUser user);
+        public Task<ApplicationUser> UserIdWithAsNoTracking(string id);
 
     }
 }

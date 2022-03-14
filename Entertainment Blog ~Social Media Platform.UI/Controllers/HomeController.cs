@@ -4,6 +4,7 @@ using Entertainment_Blog__Social_Media_Platform.UI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
 {
@@ -16,9 +17,9 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
             _postService = postService;
         }
 
-        public IActionResult Index(SearchDTO search)
+        public async Task<IActionResult> Index(SearchDTO search)
         {
-            var lists = _postService.GetPostsOrderByDateTime();
+            var lists = await _postService.GetPostsOrderByDateTime();
             if (search.Text != null)
             {
                 var searching= _postService.SearchPost(search);

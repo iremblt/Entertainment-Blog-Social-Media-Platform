@@ -1,4 +1,5 @@
-﻿
+﻿using Entertainment_Blog.DTO.DTOs.CommentDTO;
+
 namespace Entertainment_Blog.DTO.DTOs.PostDTO
 {
     public class PostNextAndLastDTO
@@ -6,5 +7,6 @@ namespace Entertainment_Blog.DTO.DTOs.PostDTO
         public PostListDTO Post { get; set; }
         public PostListDTO PostNext { get; set; }
         public PostListDTO PostLast { get; set; }
+        public CommentAddDTO CommentAdd { get; set; }
     }
 }

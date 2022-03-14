@@ -71,9 +71,6 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var detail = await _userService.UserProfileAsync(user);
             return View(detail);
-            //var user=await _userManager.GetUserAsync(HttpContext.User);
-            //var detail=_userService.ProfileDetails(user);
-            //return View(detail); 
         }
         [HttpGet]
         public async Task<IActionResult> EditProfile(string id)

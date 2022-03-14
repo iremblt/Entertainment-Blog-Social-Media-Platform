@@ -18,4 +18,10 @@
     <ProjectReference Include="..\Entertainment Blog.Entity\Entertainment Blog.Entity.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Concrete\Services\CategoryServices.cs">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+
 </Project>

@@ -1,9 +1,9 @@
 ﻿using Entertainment_Blog.Bussiness.Abstract;
+using Entertainment_Blog.DTO.DTOs.CommentDTO;
 using Entertainment_Blog.DTO.DTOs.ContentDTO;
 using Entertainment_Blog.DTO.DTOs.PostCreateEditDTOs;
 using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.DTO.DTOs.TagDTO;
-using Entertainment_Blog.DTO.DTOs.UserDTO;
 using Entertainment_Blog.Entity.Concrete;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -19,19 +19,39 @@ namespace Entertainment_Blog__Social_Media_Platform.UI.Controllers
         private readonly ICategoryService _categoryService;
         private readonly ITagService _tagService;
         private readonly IContentsService _contentsService;
+        private readonly ICommentService _commentService;
         private readonly UserManager<ApplicationUser> _userManager;
-        public PostController(IPostService postService,ICategoryService categoryService,ITagService tagService,IContentsService contentsService, UserManager<ApplicationUser> userManager)
+        public PostController(IPostService postService,ICategoryService categoryService,ITagService tagService,IContentsService contentsService, UserManager<ApplicationUser> userManager,ICommentService commentService)
         {
             _postService = postService;
             _categoryService = categoryService;
             _tagService = tagService;
             _contentsService = contentsService;
+            _commentService = commentService;
             _userManager = userManager;
         }       
        // [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var detail = await _postService.GetNextAndLastPostOfThePostAsync(id);
+            return View(detail);
+        }
+        [HttpPost, ValidateAntiForgeryToken] //Fluentvalidation çalışmıyor!
+        public async Task<IActionResult> Details(PostNextAndLastDTO comment)
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user != null)
+            {
+                comment.CommentAdd.User = user;
+                comment.CommentAdd.UserId = user.Id;
+                comment.CommentAdd.Id = 0;
+                if (ModelState.IsValid)
+                {
+                    await _commentService.AddComment(comment.CommentAdd);
+                    return RedirectToAction("Details");
+                }
+            }
+            var detail = await _postService.GetNextAndLastPostOfThePostAsync(comment.CommentAdd.PostId);
             return View(detail);
         }
         [HttpGet]

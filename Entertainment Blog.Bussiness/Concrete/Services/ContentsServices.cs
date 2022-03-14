@@ -2,7 +2,6 @@
 using Entertainment_Blog.Bussiness.Abstract;
 using Entertainment_Blog.DataAccess.Abstract;
 using Entertainment_Blog.DTO.DTOs.ContentDTO;
-using Entertainment_Blog.DTO.DTOs.PostDTO;
 using Entertainment_Blog.Entity.Concrete;
 using System.Collections.Generic;
 using System.Threading.Tasks;

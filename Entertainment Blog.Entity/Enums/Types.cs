@@ -6,6 +6,6 @@ namespace Entertainment_Blog.Entity.Enums
     public enum Types
     {
         PostCategories,
-        PostTags
+        PostTags,
     }
 }

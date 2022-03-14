@@ -3,7 +3,6 @@ using Entertainment_Blog.DataAccess.Concrete.EntityFramework.Contexts;
 using Entertainment_Blog.Entity.Concrete;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
@@ -21,6 +20,10 @@ namespace Entertainment_Blog.DataAccess.Concrete.EntityFramework.Repositories
         public async Task<ApplicationUser> UserDetailsAsync(ApplicationUser user)
         {
            return await context.Users.Include(i => i.Posts).FirstOrDefaultAsync(i=>i.Id==user.Id);
+        }
+        public async Task<ApplicationUser> UserIdWithAsNoTracking(string id)
+        {
+            return await context.Users.AsNoTracking().FirstOrDefaultAsync(i=>i.Id==id);
         }
     }
 }

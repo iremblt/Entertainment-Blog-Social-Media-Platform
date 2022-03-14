@@ -2,6 +2,8 @@
 @{
     ViewData["Title"] = "Post Detail";
 }
+@if (Model.Post != null)
+{
 <div class="row">
     <div class="col-sm-8">
         <div class="mainheading">
@@ -53,5 +55,91 @@
                 }
             </div>
         </div>
+        @if (Model.Post.User != null)
+        {
+         <div class="row post-top-meta">
+            <div class="col-md-2">
+                <img class="author-thumb" src="@Model.Post.User.Picture" alt="@Model.Post.User.UserName">
+                </div>
+                <div class="col-md-10">
+                    <a target="_blank" class="link-dark" asp-action="Profile" asp-controller="Account">User Profile</a>
+                    <a target="_blank" href="https://twitter.com" class="btn follow">Follow</a>
+                    <span class="author-description">@Model.Post.User.About</span>
+                </div>
+            </div>
+        }
+        else
+        {
+         <div class="row post-top-meta">
+            <div class="col-md-2">
+                <img class="author-thumb" src="https://www.gravatar.com/avatar/e56154546cf4be74e393c62d1ae9f9d4?s=250&amp;d=mm&amp;r=x" alt="Anomin">
+                </div>
+                <div class="col-md-10">
+                    <a target="_blank" class="link-dark" href="#">Anomin</a>
+                    <a target="_blank" href="https://twitter.com" class="btn follow">Follow</a>
+                    <span class="author-description">Anomin</span>
+                </div>
+            </div>           
+        }
+        <br>
+        <br>
+        <form asp-controller="Post" asp-action="Details" method="post">
+            <br />@Html.AntiForgeryToken()
+       <div class="card-body form-card">
+           <input asp-for="Post.Id" type="hidden" name="CommentAdd.PostId" />
+           <textarea class="form-control" name="CommentAdd.Message" placeholder="Leave your comment here..." asp-for="Post.AddComments.Message"></textarea>
+           <span asp-validation-for="Post.AddComments.Message" class="text-danger" ></span>
+           <button type="submit" class="btn btn-primary btn-sm">Add Comment</button>
+       </div>
+       <br />
+       <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h4>Comments</h4>
+        @if (Model.Post.Comments.Count == 0)
+        {
+            <div class="card-block form-card">
+                <div class="media">
+                    <div class="media-body">
+                        <h6>There is no comment for this post. You can add a first comment.</h6>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            @foreach (var comment in Model.Post.Comments)
+            {
+                <div class="card-block form-card">
+                    <div class="media">
+                        @if (comment.User.Picture != null)
+                        {
+                            <img class="d-flex mr-3 rounded-circle" src="@comment.User.Picture" alt="@comment.User.UserName" />
+                        }else{                                            
+                            <img class="d-flex mr-3 rounded-circle" src="https://randomuser.me/api/portraits/men/34.jpg" alt="@comment.User.UserName" />
+                        }
+                        <div class="media-body">
+                            <h5 class="mt-0">
+                                <i class="far fa-user"></i> @comment.User.UserName
+                            </h5>
+                            <i class="far fa-clock"></i> @comment.Date.ToShortDateString()
+                            <br />
+                            <br />
+                            @comment.Message
+                        </div>
+                    </div>
+                </div>
+            }
+        }
     </div>
+    </div>
+    </div>
+</form>
 </div>
+</div>
+}
+else{
+        <div class="row">
+            There is no post!
+        </div>
+}
